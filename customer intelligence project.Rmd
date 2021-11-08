@@ -31,35 +31,36 @@ summary(data)
 ```
 
 
-```{r pressure, echo=FALSE}
+```{r }
 head(data, 5)
 ```
 
 We are interested to see how many customers have remained at the company and how many have left. 
-```{r pressure, echo=FALSE}
+```{r }
 table(data$Attrition_Flag)
 ```
 In other words, out of total 10127 customers in the database we have 8500 customers that have remained at the company ,whereas 1627 customers have left. 
 
-```{r pressure, echo=FALSE}
+```{r }
 table(data$Gender)
 ```
-```{r pressure, echo=FALSE}
+
+```{r }
 table(data$Dependent_count)
 ```
 
-```{r pressure, echo=FALSE}
-plot(data$Attrition_Flag, data$Income_Category)
+```{r , echo=FALSE}
+
 ```
 
 Since Attrition_Flag is a character variable with two possible values: either "Existing Customer" or "Attrited Customer"  for modeling purposes we recode this variable into a factor with levels 0 and 1, where 1 represents a customer that has left the company when the person is still a customer at the company. 
 
-```{r, echo=FALSE}
+```{r}
 data <- data %>% mutate(Attrition_Flag = recode(Attrition_Flag, 'Attrited Customer' = 1 , 'Existing Customer' = 0))
 ```
 
 We now split the data into a training and a test sample, we use the training sample to train our model and the test sample to test our predictions to assess the power of our models. 
-```{r, echo=FALSE}
+```{r,results='hide'}
 smp_size <- floor(0.75 * nrow(data))
 
 ## set the seed to make your partition reproducible
@@ -72,7 +73,7 @@ test <- data[-train_ind, ]
 
 
 
-```{r, echo=FALSE}
+```{r,results='hide'}
 library(rpart)
 tree <- rpart(Attrition_Flag ~ . - X , method = "class", data = train)
 printcp(tree)
@@ -82,7 +83,7 @@ summary(tree)
 ```
 
 
-```{r pressure, echo=FALSE}
+```{r }
 # plot tree
 plot(tree, uniform=TRUE,
    main="Classification Tree for Attrition")
@@ -90,7 +91,7 @@ text(tree, use.n=TRUE, all=TRUE, cex=.8)
 
 ```
 
-```{r pressure, echo=FALSE}
+```{r }
 #library caret is a comprehensive library support all sorts of model analysis
 library(caret)
 options(digits=4)
@@ -101,60 +102,14 @@ conMat <- confusionMatrix(as.factor(Predict_model1_train), as.factor(train$Attri
 #show confusion matrix 
 conMat$table
 ```
-```{r pressure, echo=FALSE}
-install.packages('caret', dependencies = TRUE)
-library(caret)
-sensitivity(conMat)
-specificity(conMat)
-accuracy(conMat)
-```
 
+```{r }
+#install.packages('caret', dependencies = TRUE)
+#library(caret)
+sensitivity(conMat$table)
+specificity(conMat$table)
+print(accuracy <- (6190+911)/(6190+911+291+203))
+```
+The model looks to do a decent job, our sensitivity seems to be quite higher than our specificity, which implies that our model is better at correctly classifying clients that left than at finding true loyal customers. This could be because of ...
 
 Now that we have constructed the model we proceed by predicting the values in the test set in order to assess the suitability of the model. 
-```{r pressure, echo=FALSE}
-predicting <- 
-```
-
-
-```{r pressure, echo=FALSE}
-head(data, 5)
-```
-
-
-```{r pressure, echo=FALSE}
-head(data, 5)
-```
-
-
-```{r pressure, echo=FALSE}
-head(data, 5)
-```
-
-```{r pressure, echo=FALSE}
-head(data, 5)
-```
-
-```{r pressure, echo=FALSE}
-head(data, 5)
-```
-
-```{r pressure, echo=FALSE}
-head(data, 5)
-```
-
-```{r pressure, echo=FALSE}
-head(data, 5)
-```
-
-```{r pressure, echo=FALSE}
-head(data, 5)
-```
-
-```{r pressure, echo=FALSE}
-head(data, 5)
-```
-
-```{r pressure, echo=FALSE}
-head(data, 5)
-```
-
