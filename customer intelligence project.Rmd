@@ -21,6 +21,9 @@ We start reading in the data to perform the analysis
 data <- read.csv("ch.csv")
 library(dplyr)
 library(ggplot2)
+#install.packages('caret', dependencies = TRUE)
+#install with dependencies = TRUE is important for the calculation of sensitivity and specficity
+library(caret)
 ```
 
 
@@ -50,13 +53,22 @@ table(data$Dependent_count)
 ```
 
 ```{r , echo=FALSE}
-
+sapply(data, class)
 ```
 
-Since Attrition_Flag is a character variable with two possible values: either "Existing Customer" or "Attrited Customer"  for modeling purposes we recode this variable into a factor with levels 0 and 1, where 1 represents a customer that has left the company when the person is still a customer at the company. 
+Since Attrition_Flag is a character variable with two possible values: either "Existing Customer" or "Attrited Customer"  for modeling purposes we recode this variable into a factor with levels 0 and 1, where 1 represents a customer that has left the company when the person is still a customer at the company. Similarly we transform the variables Gender, Education Level, Marital Status, Income Category and Card Category to factor variables. 
 
 ```{r}
-data <- data %>% mutate(Attrition_Flag = recode(Attrition_Flag, 'Attrited Customer' = 1 , 'Existing Customer' = 0))
+
+
+data <- transform(
+  data, 
+  Attrition_Flag = as.factor(Attrition_Flag),
+  Gender = as.factor(Gender),
+  Education_Level = as.factor(Education_Level),
+  Marital_Status = as.factor(Marital_Status),
+  Income_Category = as.factor(Income_Category),
+  Card_Category = as.factor(Card_Category))
 ```
 
 We now split the data into a training and a test sample, we use the training sample to train our model and the test sample to test our predictions to assess the power of our models. 
@@ -104,8 +116,7 @@ conMat$table
 ```
 
 ```{r }
-#install.packages('caret', dependencies = TRUE)
-#library(caret)
+
 sensitivity(conMat$table)
 specificity(conMat$table)
 print(accuracy <- (6190+911)/(6190+911+291+203))
@@ -113,3 +124,29 @@ print(accuracy <- (6190+911)/(6190+911+291+203))
 The model looks to do a decent job, our sensitivity seems to be quite higher than our specificity, which implies that our model is better at correctly classifying clients that left than at finding true loyal customers. This could be because of ...
 
 Now that we have constructed the model we proceed by predicting the values in the test set in order to assess the suitability of the model. 
+
+```{r}
+Predict_model1_test <- predict(tree, test, type = "class")
+
+conMattest <- confusionMatrix(as.factor(Predict_model1_test), as.factor(test$Attrition_Flag))
+
+conMattest$table
+```
+
+```{r }
+
+sensitivity(conMattest$table)
+specificity(conMattest$table)
+print(accuracy <- (2032+315)/(2032+315+110+75))
+```
+There is not much difference between the accuracy for our model when comparing for the test and training set. The Sensitivity is slightly higher(0.01) and the specificity slightly lower(0.01). The accuracy is slightly lower than when predicting on the training set, however the difference is marginal
+
+A 2nd type of model that we could implement is a random forest. CART decision trees are easily interpretable but output can be ... because of ...      Therefore we implement a random forest model that uses a bagging procedure producing ... regression trees and takes the average of each regression tree to improve the .. of the model results. 
+
+```{r }
+library(randomForest)
+
+rf <- randomForest(Attrition_Flag ~ . - X , data = train)
+
+summary(rf)
+```
