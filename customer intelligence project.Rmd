@@ -285,15 +285,17 @@ print(precision <- 315/(315+75))
 ```
 There is not much difference between the accuracy for our model when comparing for the test and training set. The Sensitivity is slightly higher(0.01) and the specificity slightly lower(0.01). The accuracy is slightly lower than when predicting on the training set, however the difference is marginal
 
-A 2nd type of model that we could implement is a random forest. CART decision trees are easily interpretable but output can be ... because of ...      Therefore we implement a random forest model that uses a bagging procedure producing ... regression trees and takes the average of each regression tree to improve the .. of the model results. 
-
+```{r}
+str(Predict_model1_test)
+```
 
 ```{r}
 par(mai=c(.9,.8,.2,.2))
-plot(roc(test$Attrition_Flag, Predict_model1_test), print.auc=TRUE,
+plot(roc(test$Attrition_Flag, as.numeric(Predict_model1_test)), print.auc=TRUE,
      col="black", lwd=1, main="ROC curve", xlab="Specificity: true negative rate", ylab="Sensitivity: true positive rate", xlim=c(1,0))
 
 ```
+A 3rd type of model that we could implement is a random forest. CART decision trees are easily interpretable, however, output can be ... because of ...      Therefore we implement a random forest model that uses a bagging procedure producing ... regression trees and takes the average of each regression tree to improve the .. of the model results. 
 
 ```{r}
 treevariableimportance <- varImp(tree, scale = FALSE)
@@ -302,8 +304,46 @@ print(treevariableimportance)
 
 ```{r }
 library(randomForest)
-
-rf <- randomForest(Attrition_Flag ~ ., , data = train)
+train$Attrition_Flag <- as.character(train$Attrition_Flag)
+train$Attrition_Flag <- as.factor(train$Attrition_Flag)
+rf <- randomForest(Attrition_Flag ~ ., , data = train, proximity=FALSE,importance = FALSE)
+print(rf)
 
 summary(rf)
+```
+```{r}
+predrf <- predict(rf, data = "train", type = "response")
+print(rftab <- table(predrf, train$Attrition_Flag))
+print(accuracyrf <- (6290+914)/nrow(train))
+print(sensitivityrf <- 914/(914+103))
+print(precisionrf <- 914/(914+288))
+print(specificityrf <- 6290/(6290 + 288))
+
+```
+```{r}
+predrftest <- predict(rf, newdata = test, type = "response")
+print(rftabtest <- table(predrftest, test$Attrition_Flag))
+print(accuracyrftest <- (2073+335)/nrow(test))
+print(sensitivityrftest <- 335/(335+34))
+print(precisionrftest <- 335/(335+90))
+print(specificityrftest <- 2073/(2073 + 90))
+```
+```{r}
+par(mai=c(.9,.8,.2,.2))
+plot(roc(test$Attrition_Flag, as.numeric(predrftest)), print.auc=TRUE,
+     col="black", lwd=1, main="ROC curve", xlab="Specificity: true negative rate", ylab="Sensitivity: true positive rate", xlim=c(1,0))
+```
+
+```{r}
+library(pROC)
+glm.roc <- roc(response = test$Attrition_Flag, predictor = as.numeric(predtest))
+rpart.roc <- roc(response = test$Attrition_Flag, predictor = as.numeric(Predict_model1_test))
+rf.roc <- roc(response = test$Attrition_Flag, predictor = as.numeric(predrftest))
+plot(glm.roc,      legacy.axes = TRUE, print.auc.y = 1.0, print.auc = TRUE)
+plot(rpart.roc, col = "blue", add = TRUE, print.auc.y = 0.65, print.auc = TRUE)
+plot(rf.roc, col = "red" , add = TRUE, print.auc.y = 0.85, print.auc = TRUE)
+legend("bottom", c("Random Forest", "Decision Tree", "Logistic"),
+       lty = c(1,1), lwd = c(2, 2), col = c("red", "blue", "black"), cex = 0.75)
+
+
 ```
