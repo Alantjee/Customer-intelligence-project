@@ -24,8 +24,15 @@ library(ggplot2)
 #install.packages('caret', dependencies = TRUE)
 #install with dependencies = TRUE is important for the calculation of sensitivity and specficity
 library(caret)
+library(corrplot)
+library(tidyverse)
+library(repr)
+library(caTools)
+library(pROC)
+library(rpart)
+library(rpart.plot)
+library(ggpubr)
 ```
-
 
 We now start exploring the dataset
 ```{r}
@@ -35,7 +42,8 @@ summary(data)
 
 
 ```{r }
-head(data, 5)
+#we drop the X and client number column
+data <- subset(data, select=-c(X,CLIENTNUM))
 ```
 
 We are interested to see how many customers have remained at the company and how many have left. 
@@ -44,19 +52,7 @@ table(data$Attrition_Flag)
 ```
 In other words, out of total 10127 customers in the database we have 8500 customers that have remained at the company ,whereas 1627 customers have left. 
 
-```{r }
-table(data$Gender)
-```
-
-```{r }
-table(data$Dependent_count)
-```
-
-```{r , echo=FALSE}
-sapply(data, class)
-```
-
-Since Attrition_Flag is a character variable with two possible values: either "Existing Customer" or "Attrited Customer"  for modeling purposes we recode this variable into a factor with levels 0 and 1, where 1 represents a customer that has left the company when the person is still a customer at the company. Similarly we transform the variables Gender, Education Level, Marital Status, Income Category and Card Category to factor variables. 
+ Similarly we transform the variables Gender, Education Level, Marital Status, Income Category and Card Category to factor variables. 
 
 ```{r}
 
@@ -71,6 +67,109 @@ data <- transform(
   Card_Category = as.factor(Card_Category))
 ```
 
+```{r }
+nv <- sapply(data, is.numeric)
+cormat <- cor(data[,nv])
+corrplot::corrplot(cormat, title = "Correlation of Numeric Variables")
+```
+
+```{r }
+fig1 <-   ggarrange(ggplot(data, aes(x=Gender,fill=Attrition_Flag))+ geom_bar() ,
+          ggplot(data, aes(x=Marital_Status,fill=Attrition_Flag))+ geom_bar(position = 'fill'))
+
+print(fig1)
+
+annotate_figure(fig1, bottom  = text_grob("Attrition Percentage in Gender, Marital Status and Card Category", col = "blue", face = "bold", size = 14))
+```
+```{r}
+fig2 <- ggplot(data, aes(x=Education_Level,fill=Attrition_Flag))+ geom_bar(position = 'fill')
+print(fig2)
+
+annotate_figure(fig2, bottom  = text_grob("Attrition Percentage for different levels of education", col = "blue", face = "bold", size = 14))
+          
+```
+
+```{r}
+fig3 <- ggplot(data, aes(x=Income_Category,fill=Attrition_Flag))+ geom_bar(position = 'fill')
+print(fig3)
+
+annotate_figure(fig3, bottom  = text_grob("Attrition Percentage for different income levels", col = "blue", face = "bold", size = 14))
+```
+```{r}
+fig4 <- ggplot(data, aes(x=Card_Category,fill=Attrition_Flag))+ geom_bar(position = 'fill')
+print(fig4)
+
+annotate_figure(fig1, bottom  = text_grob("Attrition Percentage for different cardholder categories", col = "blue", face = "bold", size = 14))
+```
+```{r}
+fig5 <-   ggarrange(
+          ggplot(data, aes(y= Dependent_count, x = "", fill = Attrition_Flag))
++geom_boxplot() + xlab(" "),
+          ggplot(data, aes(y= Months_on_book, x = "", fill = Attrition_Flag))
++geom_boxplot() + xlab(" "))
+
+print(fig5)
+
+annotate_figure(fig2, bottom  = text_grob("Attrition Percentage for different number of dependents in family and different number of months as client", col = "red", face = "bold", size = 14))
+
+```
+```{r}
+fig6 <-   ggarrange(
+          ggplot(data, aes(y= Customer_Age, x = "", fill = Attrition_Flag))
++geom_boxplot() + xlab(" "),
+          ggplot(data, aes(y= Total_Relationship_Count, x = "", fill = Attrition_Flag))
++geom_boxplot() + xlab(" "))
+
+print(fig6)
+
+annotate_figure(fig6, bottom  = text_grob("Attrition Percentage in Age and Relationship counts", col = "red", face = "bold", size = 14))
+
+```
+
+```{r}
+fig7 <-   ggarrange(
+          ggplot(data, aes(y= Months_Inactive_12_mon, x = "", fill = Attrition_Flag))
++geom_boxplot() + xlab(" "),
+          ggplot(data, aes(y= Contacts_Count_12_mon, x = "", fill = Attrition_Flag))
++geom_boxplot() + xlab(" "))
+
+print(fig7)
+
+annotate_figure(fig7, bottom  = text_grob("Attrition Percentage in inactivity and number of contracts", col = "red", face = "bold", size = 14))
+
+```
+
+```{r}
+fig8 <-   ggarrange(
+          ggplot(data, aes(y= Credit_Limit, x = "", fill = Attrition_Flag))
++geom_boxplot() + xlab(" "),
+          ggplot(data, aes(y= Total_Trans_Amt, x = "", fill = Attrition_Flag))
++geom_boxplot() + xlab(" "))
+
+print(fig8)
+
+annotate_figure(fig8, bottom  = text_grob("Attrition Percentage in different levels of credit limit transaction levels ", col = "red", face = "bold", size = 14))
+
+```
+
+```{r}
+fig9 <-   ggarrange(
+          ggplot(data, aes(y= Total_Trans_Ct, x = "", fill = Attrition_Flag))
++geom_boxplot() + xlab(" "),
+          ggplot(data, aes(y= Avg_Utilization_Ratio, x = "", fill = Attrition_Flag))
++geom_boxplot() + xlab(" "))
+
+print(fig9)
+
+annotate_figure(fig9, bottom  = text_grob("Attrition Percentage in number of transactions and utilization ratio", col = "red", face = "bold", size = 14))
+
+```
+
+```{r , echo=FALSE}
+sapply(data, class)
+```
+
+
 We now split the data into a training and a test sample, we use the training sample to train our model and the test sample to test our predictions to assess the power of our models. 
 ```{r,results='hide'}
 smp_size <- floor(0.75 * nrow(data))
@@ -83,11 +182,54 @@ train <- data[train_ind, ]
 test <- data[-train_ind, ]
 ```
 
+```{r}
+prop.table(table(train$Attrition_Flag))
+```
+Since Attrition_Flag is a character variable with two possible values: either "Existing Customer" or "Attrited Customer"  for modeling purposes we recode this variable into a factor with levels 0 and 1, where 1 represents a customer that has left the company when the person is still a customer at the company.
+```{r}
+#recoding attrition_flag 
+train$Attrition_Flag <-ifelse(train$Attrition_Flag=="Attrited Customer",1,0)
+test$Attrition_Flag <- ifelse(test$Attrition_Flag=="Attrited Customer", 1,0)
 
+
+#logistic regression
+glm <- glm(Attrition_Flag ~., data = train, family = "binomial")
+summary(glm)
+```
+```{r}
+pred <- predict(glm, data = train, type = "response")
+# confusion matrix on training set
+conmat <- table(train$Attrition_Flag, pred >= 0.5)
+#show confusion matrix 
+print(conmat)
+accuracy <- (6149+612)/nrow(train)
+specificity <- 6149/(6149+244)
+sensitivity <- 612/(612+590)
+precision <- 612/(612+244)
+# observations on the test set
+predtest <- predict(glm, newdata = test, type = "response")
+conMattest <- table(test$Attrition_Flag, predtest >= 0.5)
+#show confusion matrix
+print(conMattest)
+accuracytest <- (2029+236)/nrow(test)
+specificitytest <- 2029/(2029+78)
+sensitivitytest <- 236/(236+189)
+precisiontest <- 236/(236+78)
+```
+
+```{r}
+par(mai=c(.9,.8,.2,.2))
+plot(roc(test$Attrition_Flag, predtest), print.auc=TRUE,
+     col="black", lwd=1, main="ROC curve", xlab="Specificity: true negative rate", ylab="Sensitivity: true positive rate", xlim=c(1,0))
+```
+
+```{r}
+logisticvariableimportance <- varImp(glm, scale = FALSE)
+print(logisticvariableimportance)
+```
 
 ```{r,results='hide'}
-library(rpart)
-tree <- rpart(Attrition_Flag ~ . - X , method = "class", data = train)
+tree <- rpart(Attrition_Flag ~., method = "class", data = train)
 printcp(tree)
 plotcp(tree)
 summary(tree)
@@ -120,6 +262,7 @@ conMat$table
 sensitivity(conMat$table)
 specificity(conMat$table)
 print(accuracy <- (6190+911)/(6190+911+291+203))
+print(precision <- 911/(911+203))
 ```
 The model looks to do a decent job, our sensitivity seems to be quite higher than our specificity, which implies that our model is better at correctly classifying clients that left than at finding true loyal customers. This could be because of ...
 
@@ -138,15 +281,29 @@ conMattest$table
 sensitivity(conMattest$table)
 specificity(conMattest$table)
 print(accuracy <- (2032+315)/(2032+315+110+75))
+print(precision <- 315/(315+75))
 ```
 There is not much difference between the accuracy for our model when comparing for the test and training set. The Sensitivity is slightly higher(0.01) and the specificity slightly lower(0.01). The accuracy is slightly lower than when predicting on the training set, however the difference is marginal
 
 A 2nd type of model that we could implement is a random forest. CART decision trees are easily interpretable but output can be ... because of ...      Therefore we implement a random forest model that uses a bagging procedure producing ... regression trees and takes the average of each regression tree to improve the .. of the model results. 
 
+
+```{r}
+par(mai=c(.9,.8,.2,.2))
+plot(roc(test$Attrition_Flag, Predict_model1_test), print.auc=TRUE,
+     col="black", lwd=1, main="ROC curve", xlab="Specificity: true negative rate", ylab="Sensitivity: true positive rate", xlim=c(1,0))
+
+```
+
+```{r}
+treevariableimportance <- varImp(tree, scale = FALSE)
+print(treevariableimportance)
+```
+
 ```{r }
 library(randomForest)
 
-rf <- randomForest(Attrition_Flag ~ . - X , data = train)
+rf <- randomForest(Attrition_Flag ~ ., , data = train)
 
 summary(rf)
 ```
