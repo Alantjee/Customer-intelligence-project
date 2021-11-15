@@ -82,3 +82,71 @@ confusionMatrix(table(trainpredict, train$Attrition_Flag))
 
 testpredict <- predict(svmfit, test)
 confusionMatrix(table(testpredict, test$Attrition_Flag))
+
+
+par(mai=c(.9,.8,.2,.2))
+plot(roc(test$Attrition_Flag, as.numeric(testpredict)), print.auc=TRUE,
+     col="black", lwd=1, main="ROC curve", xlab="Specificity: true negative rate", ylab="Sensitivity: true positive rate", xlim=c(1,0))
+
+
+
+svmfit2 = svm(Attrition_Flag ~ ., data = train, kernel = "radial", cost = 10, scale = FALSE)
+print(svmfit2)
+summary(svmfit2)
+
+trainpredict2 <- predict(svmfit2, train)
+
+confusionMatrix(table(trainpredict2, train$Attrition_Flag))
+
+
+testpredict2 <- predict(svmfit2, test)
+confusionMatrix(table(testpredict2, test$Attrition_Flag))
+
+
+svmfit3 = svm(Attrition_Flag ~ ., data = train, kernel = "polynomial", cost = 10, scale = FALSE)
+print(svmfit3)
+summary(svmfit3)
+
+trainpredict3 <- predict(svmfit3, train)
+
+confusionMatrix(table(trainpredict3, train$Attrition_Flag))
+
+
+testpredict3 <- predict(svmfit3, test)
+confusionMatrix(table(testpredict3, test$Attrition_Flag))
+
+svmfit4 = svm(Attrition_Flag ~ ., data = train, kernel = "sigmoid", cost = 10, scale = FALSE)
+print(svmfit4)
+summary(svmfit4)
+
+trainpredict4 <- predict(svmfit4, train)
+
+confusionMatrix(table(trainpredict4, train$Attrition_Flag))
+
+
+testpredict4 <- predict(svmfit4, test)
+confusionMatrix(table(testpredict4, test$Attrition_Flag))
+#K nearest neighbours
+
+
+##the normalization function is created
+#nor <-function(x) { (x -min(x))/(max(x)-min(x))   }
+
+##Run nomalization on first 4 coulumns of dataset because they are the predictors
+#data <- as.data.frame(lapply(data[,c(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)], nor))
+
+#set.seed(12345)
+#train_ind <- sample(seq_len(nrow(data)), size = smp_size)
+
+data %>% 
+  mutate_all(funs(as.numeric(as.factor(.))))
+train <- data[train_ind, ]
+test <- data[-train_ind, ]
+traincategory <- data[train_ind, 1]
+testcategory <- data[-train_ind, 1]
+
+##load the package class
+library(class)
+##run knn function
+pr <- knn(train,test, cl = traincategory, k=13)
+
