@@ -14,15 +14,34 @@ knitr::opts_knit$set(root.dir = "C:/Documents/Customer-intelligence-project")
 
 
 ```
+1. Introduction
 
-We start reading in the data to perform the analysis
+We, Alan Rijnders and Lorenzo Severi have been appointed from Alpha Bank to help tackling one of the biggest problems physical banks are facing now, being the significant number of customers shifting towards online financial institutions, such as N26 and illimity Bank. 
+
+If Alpha Bank aims to survive in the financial market in the long run, a proactive way of predicting the customers willing to leave their service is essential. In fact, by discovering beforehand those customers, Alpha Bank will be in the position to find solutions aimed at better suiting their needs by eventually persuading them to remain.  
+
+One might argue that some scholars have recently suggested companies avoiding focusing just on retaining customers; long-term customers seem indeed to be extremely costly, as they tend to expect lower prices in exchange for their loyalty (Anderson & Jap, 2005). Nonetheless, it is common knowledge that, if feasible, companies should find ways to persuade them to remain, but without forgetting to keep an eye on their profitability. 
+
+2. Methodology
+
+The database provided consist of labeled data, meaning that it represents a case of supervised learning. As we will be dealing with a prediction of a binary category (i.e., “0 à remain” or “1 à leave”), the problem involves classification, as the outcome variable will not be continuous. During our classes, we have seen several statistical methods suitable for this kind of data, namely Logistic Regression, Decision Tree and Random Forest. 
+
+Logistic regression is a predictive analysis used to explain the relationship between one non-metric dependent variable and one (or several) nominal, ordinal, interval or ratio independent variables. Instead of predicting the dependent variable, this technique predicts the probability of the dependent variable to be true (Statistics Solutions, n.d.; Edgar & Manz, 2017). 
+
+Decision trees (also known as CART trees) are graphic representation of different alternative solutions that are suitable to tackle a problem. It is usually used to determine the most effective courses of action. All decision trees start with a single node that is connected through branches into possible outcomes. All the different outcomes lead to additional nodes which branch off into other possibilities (OmniSci, n.d.; Lucidchart, n.d.). 
+
+Random forest is a collection of decision trees trained with a bootstrapped technique, so that the ensemble boosts the accuracy of the decision trees outcome (Donges, 2021). 
+
+3. Data preparation  
+
+To be able to analyze the dataset, we first need to set the working directory where the file is located, and subsequently to open the .csv file. Then, we need to install and call in several free libraries, as they are required for conducting our analysis. With regards to the library “caret”, it is important to install it by means of the dependencies, as we need them in order to calculate sensitivity and specificity. 
 ```{r}
 #read in data
 data <- read.csv("ch.csv")
 library(dplyr)
 library(ggplot2)
 #install.packages('caret', dependencies = TRUE)
-#install with dependencies = TRUE is important for the calculation of sensitivity and specficity
+#install with dependencies = TRUE is important for the calculation of sensitivity and specificity
 library(caret)
 library(corrplot)
 library(tidyverse)
@@ -32,13 +51,10 @@ library(pROC)
 library(rpart)
 library(rpart.plot)
 library(ggpubr)
+library(randomForest)
 ```
 
-We now start exploring the dataset
-```{r}
-#summary of the dataset
-summary(data)
-```
+By briefly looking at the variables, we see how some need to be re-recorded. What is more, we considered the first two columns of our database (i.e., “X” and “CLIENTUM”) as neglectable and thus we decided to crop them to obtain a cleaner dataset. Then, we proceed with the transformation of several variables (i.e., “Gender”, “Education_Level”, “Marital_Status”, “Income_Category” and “Card_Category”) into factor variables, so that we will be able to analyze them accurately. The last step is to record the variable “Attrition_Flag”, which contains the two levels “Existing Customer” and “Attrited Customer”, into a binary variable, with the value of “0” and “1” respectively. As there seems to be no possible detrimental errors in the dataset (e.g., non-response error, out-of-range error, …), we will be further proceeding by assuming that the quantitative inferences we will take on the outcome will not be unvalidated. 
 
 
 ```{r }
@@ -46,11 +62,24 @@ summary(data)
 data <- subset(data, select=-c(X,CLIENTNUM))
 ```
 
-We are interested to see how many customers have remained at the company and how many have left. 
+```{r}
+#summary of the dataset
+summary(data)
+```
+
+Data exploration 
+
+The first step of data exploration consists of reading and visualizing the data: there were 10,127 observations with 18 variables, ranging from non-metric to metric ones.  
+
+With regards to the socio-demographic characteristics, the average age was forty-six, with a minimum age of twenty-six and a maximum age of seventy-three, and the database consists of 52.9% female (5358) and 47.1% males (4769). With regards to the number of dependents, the average is slightly more than two people, with a maximum of five. 70.3% of the customers obtained at least an high-school diploma, but a significant 14.7% is not educated, and 15% have an unknown status. Concerning the marital status, 46.3% of people are married, 38.9% are single and the remaining 14.8% are either divorced or with an unknown status. The income category is considerable diversified: 35.2% has an annual income that is less than $40k, 17.7% $40k - $60k, 13.8% $60k - $80k, 15.2% $80 $120k, 7.2% more than $120k, and 11% have an unknown income status. 
+
+Concerning the variables related to the product, the data depicts that more than 93% of the customers have blue card, the average time of bank-customer relationship is 35 months with an average of almost four active products. 
+In the graphs below, we show the different distribution of the aforementioned variables by means of their status with the Alpha Bank (i.e., “Attrited customer” vs “Existing customer”). 
+
 ```{r }
 table(data$Attrition_Flag)
 ```
-In other words, out of total 10127 customers in the database we have 8500 customers that have remained at the company ,whereas 1627 customers have left. 
+We see that our dependent variable shows that out of the 10,127 customers, 83.9% (8,500 customers) have remained, whereas 16.1% (1,627 customers) have left. 
 
  Similarly we transform the variables Gender, Education Level, Marital Status, Income Category and Card Category to factor variables. 
 
@@ -72,7 +101,9 @@ nv <- sapply(data, is.numeric)
 cormat <- cor(data[,nv])
 corrplot::corrplot(cormat, title = "Correlation of Numeric Variables")
 ```
+With regards to the correlation matrix, we see in Figure "Correlation of Numeric Variables" how some variables seem to be highly correlated. However, that was highly expected due to the fact that having a high number of variables increases the likelihood of finding overlaps among them. The variables involved are: “Months_on_book” with “Customer_Age” (positively correlated), “Total_Trans_Amt” with “Total_Trans_Ct” (positively correlated) and “Avg_Utilization_Ratio” with “Credit_Limit” (negatively correlated). Since they do not measure the same aspects, we proceed by considering all of them as adding significant information into our model, and thus we are not excluding one of them. 
 
+In the graphs below, we show the different distribution of the aforementioned variables by means of their status with the Alpha Bank (i.e., “Attrited customer” vs “Existing customer”). 
 ```{r }
 fig1 <-   ggarrange(ggplot(data, aes(x=Gender,fill=Attrition_Flag))+ geom_bar() ,
           ggplot(data, aes(x=Marital_Status,fill=Attrition_Flag))+ geom_bar(position = 'fill'))
@@ -170,7 +201,7 @@ sapply(data, class)
 ```
 
 
-We now split the data into a training and a test sample, we use the training sample to train our model and the test sample to test our predictions to assess the power of our models. 
+It is essential to split the data into training and test sets. Indeed, we will fist use the training data to build our model and then, when we satisfied with the achievements, the remaining test data will deal to test our model, and thus to assess the power of our predictions. The training set is composed by 75% of the data, whereas the test set 25%. 
 ```{r,results='hide'}
 smp_size <- floor(0.75 * nrow(data))
 
@@ -190,12 +221,18 @@ Since Attrition_Flag is a character variable with two possible values: either "E
 #recoding attrition_flag 
 train$Attrition_Flag <-ifelse(train$Attrition_Flag=="Attrited Customer",1,0)
 test$Attrition_Flag <- ifelse(test$Attrition_Flag=="Attrited Customer", 1,0)
+```
 
+We now can proceed with our first technique, namely Logistic regression. As we don’t have any preference between the two errors (i.e., Type 1 or Type 2), we proceed by selecting the threshold of t to be 0.5, as it will predict the most likely outcome. Indeed, as explained at the beginning of the report, companies should be advised that spending too much money on retaining customers is often the wrong action to take (even though it is important to find ways to retain). Hence, we decided that false positive and false negative would have the same impact, as it would be costly to lose a customer if not considered as willing to go (false positive?), but at the same time it is costly to find ways to retain them so considering a customer that wants to go even though is not costly as well (I said he goes but he remained -> false negative). 
 
+```{r}
 #logistic regression
 glm <- glm(Attrition_Flag ~., data = train, family = "binomial")
 summary(glm)
 ```
+
+We first look at accuracy (i.e., number of corrected guesses), specificity (i.e., true negative rate), sensitivity (i.e., true positive rate), and precision on our training set, so that we can analyze how well the model was at predicting the outcome. 
+
 ```{r}
 pred <- predict(glm, data = train, type = "response")
 # confusion matrix on training set
@@ -206,6 +243,12 @@ accuracy <- (6149+612)/nrow(train)
 specificity <- 6149/(6149+244)
 sensitivity <- 612/(612+590)
 precision <- 612/(612+244)
+```
+The accuracy seems to be pretty .....
+
+
+Secondly we deploy the model on our test set to see how well our model predicts on new data. We again calculate the Accuracy, Specificity, Sensitivity and Precision of our model. 
+```{r}
 # observations on the test set
 predtest <- predict(glm, newdata = test, type = "response")
 conMattest <- table(test$Attrition_Flag, predtest >= 0.5)
@@ -216,17 +259,25 @@ specificitytest <- 2029/(2029+78)
 sensitivitytest <- 236/(236+189)
 precisiontest <- 236/(236+78)
 ```
+Again, the accuracy seems to be pretty .....
 
+
+We now plot the ROC curve of our model. The ROC curve measures the ..    the larger the area the more accurate the model, with an area of 1 signifying a perfect model and an area of 0.5 or lower as a situation in which the model does not perform better than a random prediction. 
 ```{r}
 par(mai=c(.9,.8,.2,.2))
 plot(roc(test$Attrition_Flag, predtest), print.auc=TRUE,
      col="black", lwd=1, main="ROC curve", xlab="Specificity: true negative rate", ylab="Sensitivity: true positive rate", xlim=c(1,0))
 ```
 
+The area under the curve equals to ...   this is a very high value and is an indication that our model is performing quite well. 
+
+Next we calculate the variable importance for all of the variables we include in our model. The variable importance measures which variables are the main predictors of the loyalty of our customers. Insight into the main predictors could help give the company focus in developing marketing strategies to prevent attrition. 
 ```{r}
 logisticvariableimportance <- varImp(glm, scale = FALSE)
 print(logisticvariableimportance)
 ```
+
+Of course we want to compare multiple supervised learning methods to compare the quality of different models and choose the model that is the best at predicting customer attrition. The 2nd model we use is a basic CART decision tree.
 
 ```{r,results='hide'}
 tree <- rpart(Attrition_Flag ~., method = "class", data = train)
@@ -236,6 +287,7 @@ summary(tree)
 
 ```
 
+The cp shows ....
 
 ```{r }
 # plot tree
@@ -244,11 +296,11 @@ plot(tree, uniform=TRUE,
 text(tree, use.n=TRUE, all=TRUE, cex=.8)
 
 ```
+This shows an overview of our decision tree. For instance a customer with .. and .. will have a .. percent chance of leaving the company. 
 
+We test the quality of our model by firstly predicting attrition on our training dataset. 
 ```{r }
-#library caret is a comprehensive library support all sorts of model analysis
-library(caret)
-options(digits=4)
+#options(digits=4)
 # assess the model's accuracy with train dataset by make a prediction on the train data. 
 Predict_model1_train <- predict(tree, train, type = "class")
 #build a confusion matrix to make comparison
@@ -256,6 +308,7 @@ conMat <- confusionMatrix(as.factor(Predict_model1_train), as.factor(train$Attri
 #show confusion matrix 
 conMat$table
 ```
+This shows the confusion matrix for our decision tree model. Our predictions on the training set seem to be doing pretty decent, but to give more insight we proceed by calculating the Accuracy, Sensitivity, Specificity and Precision of our model. 
 
 ```{r }
 
@@ -276,6 +329,8 @@ conMattest <- confusionMatrix(as.factor(Predict_model1_test), as.factor(test$Att
 conMattest$table
 ```
 
+This shows the confusion matrix for our decision tree model. Our predictions on the test set seem to be of similar quality as they were on the training data. Again we proceed by calculating the Accuracy, Sensitivity, Specificity and Precision of our model. 
+
 ```{r }
 
 sensitivity(conMattest$table)
@@ -285,9 +340,7 @@ print(precision <- 315/(315+75))
 ```
 There is not much difference between the accuracy for our model when comparing for the test and training set. The Sensitivity is slightly higher(0.01) and the specificity slightly lower(0.01). The accuracy is slightly lower than when predicting on the training set, however the difference is marginal
 
-```{r}
-str(Predict_model1_test)
-```
+We construct the ROC curve to compare how well our model predicts Attrition compared to a completely random guessing strategy. 
 
 ```{r}
 par(mai=c(.9,.8,.2,.2))
@@ -295,15 +348,20 @@ plot(roc(test$Attrition_Flag, as.numeric(Predict_model1_test)), print.auc=TRUE,
      col="black", lwd=1, main="ROC curve", xlab="Specificity: true negative rate", ylab="Sensitivity: true positive rate", xlim=c(1,0))
 
 ```
-A 3rd type of model that we could implement is a random forest. CART decision trees are easily interpretable, however, output can be ... because of ...      Therefore we implement a random forest model that uses a bagging procedure producing ... regression trees and takes the average of each regression tree to improve the .. of the model results. 
+
+The area under the curve of ... implies that our model is doing a good job in predicting customer attrition. 
+
+We calculate the variable importance for our decision tree to see which variables were decisive in classifying the customers and predicting their behaviour.  
 
 ```{r}
 treevariableimportance <- varImp(tree, scale = FALSE)
 print(treevariableimportance)
 ```
 
+A 3rd type of model that we could implement is a random forest. CART decision trees are easily interpretable, however, output can be ... because of ...      Therefore we implement a random forest model that uses a bagging procedure 
+producing ... regression trees and takes the average of each regression tree to improve the .. of the model results.
+
 ```{r }
-library(randomForest)
 train$Attrition_Flag <- as.character(train$Attrition_Flag)
 train$Attrition_Flag <- as.factor(train$Attrition_Flag)
 rf <- randomForest(Attrition_Flag ~ ., , data = train, proximity=FALSE,importance = FALSE)
@@ -311,6 +369,11 @@ print(rf)
 
 summary(rf)
 ```
+
+This shows the summary of our random forest model. We can see that .....
+
+Just like with the 2 previous models we continue by predicting customer attrition in our training dataset to assess how well our model fits the data.
+
 ```{r}
 predrf <- predict(rf, data = "train", type = "response")
 print(rftab <- table(predrf, train$Attrition_Flag))
@@ -320,6 +383,10 @@ print(precisionrf <- 914/(914+288))
 print(specificityrf <- 6290/(6290 + 288))
 
 ```
+
+The accuracy of ... implies that our model is quite accurate in its predictions. The sensitivity and specificty signal that ...   whereas the precision of .. tells us ..
+
+To verify the fit of our model we also predict customer attrition in the test dataset. 
 ```{r}
 predrftest <- predict(rf, newdata = test, type = "response")
 print(rftabtest <- table(predrftest, test$Attrition_Flag))
@@ -328,14 +395,20 @@ print(sensitivityrftest <- 335/(335+34))
 print(precisionrftest <- 335/(335+90))
 print(specificityrftest <- 2073/(2073 + 90))
 ```
+The accuracy of ... tells us that our model is quite accurate in its predictions. The sensitivity and specificty show that ...   whereas the precision of .. gives us an indication of how ..
+
+We also plot an ROC curve for our random forest model to see how well our predictions are doing compared to random guessing. 
 ```{r}
 par(mai=c(.9,.8,.2,.2))
 plot(roc(test$Attrition_Flag, as.numeric(predrftest)), print.auc=TRUE,
      col="black", lwd=1, main="ROC curve", xlab="Specificity: true negative rate", ylab="Sensitivity: true positive rate", xlim=c(1,0))
 ```
 
+The area under the curve of ... indicates that our model is doing a good job in predicting customer attrition. 
+
+In the following graph we compare the results of all our 3 models at the same time. 
 ```{r}
-library(pROC)
+
 glm.roc <- roc(response = test$Attrition_Flag, predictor = as.numeric(predtest))
 rpart.roc <- roc(response = test$Attrition_Flag, predictor = as.numeric(Predict_model1_test))
 rf.roc <- roc(response = test$Attrition_Flag, predictor = as.numeric(predrftest))
@@ -347,3 +420,15 @@ legend("bottom", c("Random Forest", "Decision Tree", "Logistic"),
 
 
 ```
+
+The graph indicates that the Logistic regression model that we constructed seems to be the best model for predicting customer attrition. The area under the curve of .. indicates that in ... of the cases we would predict correctly.
+
+Given that the logistic regression model came out as the best model we shortly highlight the results of the logistic regression to give insights into the drivers of customer attrition. According to our regression the .... , ..... , ... and .... where the most important predictors of customer attrition. ... with a coefficient of ... would on average increase the likelihood of attrition by ... percent. 
+
+ ... with a coefficient of ... would on average increase the likelihood of churning by ... percent. 
+ 
+ ... with a coefficient of ... would on average increase the likelihood of churning by ... percent. 
+  
+ ... with a coefficient of ... would on average increase the likelihood of churning by ... percent. 
+ 
+ 
