@@ -1,0 +1,1072 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Customer Intelligence and Big Data},
+  pdfauthor={Alan Rijnders and Lorenzo Severi},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Customer Intelligence and Big Data}
+\author{Alan Rijnders and Lorenzo Severi}
+\date{11/4/2021}
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Introduction
+\end{enumerate}
+
+We, Alan Rijnders and Lorenzo Severi have been appointed from Alpha Bank
+to help tackling one of the biggest problems physical banks are facing
+now, being the significant number of customers shifting towards online
+financial institutions, such as N26 and illimity Bank.
+
+If Alpha Bank aims to survive in the financial market in the long run, a
+proactive way of predicting the customers willing to leave their service
+is essential. In fact, by discovering beforehand those customers, Alpha
+Bank will be in the position to find solutions aimed at better suiting
+their needs by eventually persuading them to remain.
+
+One might argue that some scholars have recently suggested companies
+avoiding focusing just on retaining customers; long-term customers seem
+indeed to be extremely costly, as they tend to expect lower prices in
+exchange for their loyalty (Anderson \& Jap, 2005). Nonetheless, it is
+common knowledge that, if feasible, companies should find ways to
+persuade them to remain, but without forgetting to keep an eye on their
+profitability.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Methodology
+\end{enumerate}
+
+The database provided consist of labeled data, meaning that it
+represents a case of supervised learning. As we will be dealing with a
+prediction of a binary category (i.e., ``0 à remain'' or ``1 à leave''),
+the problem involves classification, as the outcome variable will not be
+continuous. During our classes, we have seen several statistical methods
+suitable for this kind of data, namely Logistic Regression, Decision
+Tree and Random Forest.
+
+Logistic regression is a predictive analysis used to explain the
+relationship between one non-metric dependent variable and one (or
+several) nominal, ordinal, interval or ratio independent variables.
+Instead of predicting the dependent variable, this technique predicts
+the probability of the dependent variable to be true (Statistics
+Solutions, n.d.; Edgar \& Manz, 2017).
+
+Decision trees (also known as CART trees) are graphic representation of
+different alternative solutions that are suitable to tackle a problem.
+It is usually used to determine the most effective courses of action.
+All decision trees start with a single node that is connected through
+branches into possible outcomes. All the different outcomes lead to
+additional nodes which branch off into other possibilities (OmniSci,
+n.d.; Lucidchart, n.d.).
+
+Random forest is a collection of decision trees trained with a
+bootstrapped technique, so that the ensemble boosts the accuracy of the
+decision trees outcome (Donges, 2021).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Data preparation
+\end{enumerate}
+
+To be able to analyze the dataset, we first need to set the working
+directory where the file is located, and subsequently to open the .csv
+file. Then, we need to install and call in several free libraries, as
+they are required for conducting our analysis. With regards to the
+library ``caret'', it is important to install it by means of the
+dependencies, as we need them in order to calculate sensitivity and
+specificity.
+
+By briefly looking at the variables, we see how some need to be
+re-recorded. What is more, we considered the first two columns of our
+database (i.e., ``X'' and ``CLIENTUM'') as neglectable and thus we
+decided to crop them to obtain a cleaner dataset.
+
+Then, we proceed with the transformation of several variables (i.e.,
+``Gender'', ``Education\_Level'', ``Marital\_Status'',
+``Income\_Category'' and ``Card\_Category'') into factor variables, so
+that we will be able to analyze them accurately. The last step is to
+record the variable ``Attrition\_Flag'', which contains the two levels
+``Existing Customer'' and ``Attrited Customer'', into a binary variable,
+with the value of ``0'' and ``1'' respectively. As there seems to be no
+possible detrimental errors in the dataset (e.g., non-response error,
+out-of-range error, \ldots), we will be further proceeding by assuming
+that the quantitative inferences we will take on the outcome will be
+valid.
+
+Data exploration
+
+The first step of data exploration consists of reading and visualizing
+the data: there were 10,127 observations with 18 variables.
+
+\begin{verbatim}
+##         Customer_Age Dependent_count Months_on_book Total_Relationship_Count
+## Min.        26.00000        0.000000       13.00000                  1.00000
+## 1st Qu.     41.00000        1.000000       31.00000                  3.00000
+## Median      46.00000        2.000000       36.00000                  4.00000
+## Mean        46.32596        2.346203       35.92841                  3.81258
+## 3rd Qu.     52.00000        3.000000       40.00000                  5.00000
+## Max.        73.00000        5.000000       56.00000                  6.00000
+##         Months_Inactive_12_mon Contacts_Count_12_mon Credit_Limit
+## Min.                  0.000000              0.000000     1438.300
+## 1st Qu.               2.000000              2.000000     2555.000
+## Median                2.000000              2.000000     4549.000
+## Mean                  2.341167              2.455317     8631.954
+## 3rd Qu.               3.000000              3.000000    11067.500
+## Max.                  6.000000              6.000000    34516.000
+##         Total_Trans_Amt Total_Trans_Ct Avg_Utilization_Ratio
+## Min.            510.000       10.00000             0.0000000
+## 1st Qu.        2155.500       45.00000             0.0230000
+## Median         3899.000       67.00000             0.1760000
+## Mean           4404.086       64.85869             0.2748936
+## 3rd Qu.        4741.000       81.00000             0.5030000
+## Max.          18484.000      139.00000             0.9990000
+\end{verbatim}
+
+The average time of bank-customer relationship is 35 months with an
+average of almost four active products. The Average age of our customer
+is 46. The average number of contacts with the bank have been 2.45
+whereas the average total transaction mount per customer is 4404
+dollars.
+
+Next we summarize the factor variables by looking at the frequencies of
+each level within the factor.
+
+\begin{verbatim}
+## 
+## Attrited Customer Existing Customer 
+##              1627              8500
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attrited Customer Existing Customer 
+##             0.161             0.839
+\end{verbatim}
+
+We see that our dependent variable shows that out of the 10,127
+customers, 83.9\% (8,500 customers) have remained, whereas 16.1\% (1,627
+customers) have left.
+
+\begin{verbatim}
+## 
+## Divorced  Married   Single  Unknown 
+##      748     4687     3943      749
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Divorced  Married   Single  Unknown 
+##    0.074    0.463    0.389    0.074
+\end{verbatim}
+
+Concerning the marital status, 46.3\% of people are married, 38.9\% are
+single and the remaining 14.8\% are either divorced or with an unknown
+status.
+
+\begin{verbatim}
+## 
+##    F    M 
+## 5358 4769
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##     F     M 
+## 0.529 0.471
+\end{verbatim}
+
+With regards to the socio-demographic characteristics, the average age
+was forty-six, with a minimum age of twenty-six and a maximum age of
+seventy-three, and the database consists of 52.9\% female (5358) and
+47.1\% males (4769).
+
+\begin{verbatim}
+## 
+##    0    1    2    3    4    5 
+##  904 1838 2655 2732 1574  424
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##     0     1     2     3     4     5 
+## 0.089 0.181 0.262 0.270 0.155 0.042
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 2.346203
+\end{verbatim}
+
+With regards to the number of dependents, the average is slightly more
+than two people, with a maximum of five. 904 have no dependents, 1838
+have 1 dependent, 2655 have 2 dependents, 2732 have 3 dependents, 1574 4
+dependents and 424 have 5 dependents.
+
+\begin{verbatim}
+## 
+##        $120K +    $40K - $60K    $60K - $80K   $80K - $120K Less than $40K 
+##            727           1790           1402           1535           3561 
+##        Unknown 
+##           1112
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##        $120K +    $40K - $60K    $60K - $80K   $80K - $120K Less than $40K 
+##          0.072          0.177          0.138          0.152          0.352 
+##        Unknown 
+##          0.110
+\end{verbatim}
+
+The income category is considerable diversified: 35.2\% has an annual
+income that is less than \$40k, 17.7\% \$40k - \$60k, 13.8\% \$60k -
+\$80k, 15.2\% \$80 \$120k, 7.2\% more than \$120k, and 11\% have an
+unknown income status.
+
+\begin{verbatim}
+## 
+##     Blue     Gold Platinum   Silver 
+##     9436      116       20      555
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##     Blue     Gold Platinum   Silver 
+##    0.932    0.011    0.002    0.055
+\end{verbatim}
+
+Concerning the variables related to the product, the data depicts that
+more than 93\% of the customers have blue card.
+
+\begin{verbatim}
+## 
+##       College     Doctorate      Graduate   High School Post-Graduate 
+##          1013           451          3128          2013           516 
+##    Uneducated       Unknown 
+##          1487          1519
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##       College     Doctorate      Graduate   High School Post-Graduate 
+##         0.100         0.045         0.309         0.199         0.051 
+##    Uneducated       Unknown 
+##         0.147         0.150
+\end{verbatim}
+
+70.3\% of the customers obtained at least an high-school diploma, but a
+significant 14.7\% is not educated, and 15\% have an unknown status.
+
+We check our dataset for the correlations between variables.
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+With regards to the correlation matrix, we see in Figure ``Correlation
+of Numeric Variables'' how some variables seem to be highly correlated.
+However, that was highly expected due to the fact that having a high
+number of variables increases the likelihood of finding overlaps among
+them. The variables involved are: ``Months\_on\_book'' with
+``Customer\_Age'' (positively correlated), ``Total\_Trans\_Amt'' with
+``Total\_Trans\_Ct'' (positively correlated) and
+``Avg\_Utilization\_Ratio'' with ``Credit\_Limit'' (negatively
+correlated). Since they do not measure the same aspects, we proceed by
+considering all of them as adding significant information into our
+model, and thus we are not excluding one of them.
+
+In the graphs below, we show the different distribution of the
+aforementioned variables by means of their status with the Alpha Bank
+(i.e., ``Attrited customer'' vs ``Existing customer'').
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-14-1.pdf}
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-14-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{reorder\_size }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}
+  \FunctionTok{factor}\NormalTok{(x, }\AttributeTok{levels =} \FunctionTok{names}\NormalTok{(}\FunctionTok{sort}\NormalTok{(}\FunctionTok{table}\NormalTok{(x), }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{)))}
+\NormalTok{\}}
+
+\FunctionTok{ggplot}\NormalTok{(data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{reorder\_size}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Attrition\_Flag}\StringTok{\textasciigrave{}}\NormalTok{))) }\SpecialCharTok{+}
+        \FunctionTok{geom\_bar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ (..count..)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(..count..))) }\SpecialCharTok{+}
+        \FunctionTok{xlab}\NormalTok{(}\StringTok{"Attrition\_Flag"}\NormalTok{) }\SpecialCharTok{+}
+        \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\NormalTok{percent, }\AttributeTok{name =} \StringTok{"Proportion"}\NormalTok{) }\SpecialCharTok{+}
+        \FunctionTok{facet\_grid}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ Gender) }\SpecialCharTok{+}
+        \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{reorder\_size}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Attrition\_Flag}\StringTok{\textasciigrave{}}\NormalTok{))) }\SpecialCharTok{+}
+        \FunctionTok{geom\_bar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ (..count..)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(..count..))) }\SpecialCharTok{+}
+        \FunctionTok{xlab}\NormalTok{(}\StringTok{"Attrition\_Flag"}\NormalTok{) }\SpecialCharTok{+}
+        \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\NormalTok{percent, }\AttributeTok{name =} \StringTok{"Proportion"}\NormalTok{) }\SpecialCharTok{+}
+        \FunctionTok{facet\_grid}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ Marital\_Status) }\SpecialCharTok{+}
+        \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-17-1.pdf}
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-17-2.pdf}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-18-1.pdf}
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-18-2.pdf}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-19-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fig45 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Marital\_Status,}\AttributeTok{fill=}\NormalTok{Attrition\_Flag))}\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{position =} \StringTok{\textquotesingle{}fill\textquotesingle{}}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(fig45)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-20-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{annotate\_figure}\NormalTok{(fig45, }\AttributeTok{bottom  =} \FunctionTok{text\_grob}\NormalTok{(}\StringTok{"Attrition Percentage for different marital status"}\NormalTok{, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{, }\AttributeTok{size =} \DecValTok{14}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-20-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{reorder\_size}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Marital\_Status}\StringTok{\textasciigrave{}}\NormalTok{))) }\SpecialCharTok{+}
+        \FunctionTok{geom\_bar}\NormalTok{() }\SpecialCharTok{+}
+        \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-22-1.pdf}
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-22-2.pdf}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-23-1.pdf}
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-23-2.pdf}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-24-1.pdf}
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-24-2.pdf}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-25-1.pdf}
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-25-2.pdf}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-26-1.pdf}
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-26-2.pdf}
+
+It is essential to split the data into training and test sets. Indeed,
+we will fist use the training data to build our model and then, when we
+satisfied with the achievements, the remaining test data will deal to
+test our model, and thus to assess the power of our predictions. The
+training set is composed by 75\% of the data, whereas the test set 25\%.
+
+Since Attrition\_Flag is a character variable with two possible values:
+either ``Existing Customer'' or ``Attrited Customer'' for modeling
+purposes we recode this variable into a factor with levels 0 and 1,
+where 1 represents a customer that has left the company when the person
+is still a customer at the company.
+
+We now can proceed with our first technique, namely Logistic regression.
+As we don't have any preference between the two errors (i.e., Type 1 or
+Type 2), we proceed by selecting the threshold of t to be 0.5, as it
+will predict the most likely outcome. Indeed, as explained at the
+beginning of the report, companies should be advised that spending too
+much money on retaining customers is often the wrong action to take
+(even though it is important to find ways to retain). Hence, we decided
+that false positive and false negative would have the same impact, as it
+would be costly to lose a customer if not considered as willing to go
+(false positive?), but at the same time it is costly to find ways to
+retain them so considering a customer that wants to go even though is
+not costly as well (I said he goes but he remained -\textgreater{} false
+negative).
+
+\begin{verbatim}
+## [[1]]
+##                                    Estimate   Std. Error     z value
+## (Intercept)                    4.916091e+00 4.912809e-01  10.0066800
+## Customer_Age                  -5.264455e-04 8.325105e-03  -0.0632359
+## GenderM                       -1.008526e+00 1.651905e-01  -6.1052300
+## Dependent_count                1.094006e-01 3.241187e-02   3.3753243
+## Education_LevelDoctorate       3.666569e-01 2.199648e-01   1.6668892
+## Education_LevelGraduate        1.093877e-01 1.520174e-01   0.7195736
+## Education_LevelHigh School    -3.988086e-02 1.620351e-01  -0.2461248
+## Education_LevelPost-Graduate   2.768040e-01 2.221901e-01   1.2457979
+## Education_LevelUneducated      9.044935e-02 1.703276e-01   0.5310317
+## Education_LevelUnknown         1.984001e-01 1.682630e-01   1.1791066
+## Marital_StatusMarried         -5.234166e-01 1.698140e-01  -3.0822941
+## Marital_StatusSingle           1.005039e-01 1.705281e-01   0.5893686
+## Marital_StatusUnknown          1.198105e-01 2.131986e-01   0.5619667
+## Income_Category$40K - $60K    -1.214200e+00 2.208052e-01  -5.4989659
+## Income_Category$60K - $80K    -9.104952e-01 1.904685e-01  -4.7802932
+## Income_Category$80K - $120K   -5.443746e-01 1.776173e-01  -3.0648737
+## Income_CategoryLess than $40K -1.048165e+00 2.401179e-01  -4.3652086
+## Income_CategoryUnknown        -1.166468e+00 2.516948e-01  -4.6344535
+## Card_CategoryGold              1.086913e+00 3.964255e-01   2.7417825
+## Card_CategoryPlatinum          2.162290e+00 7.218460e-01   2.9955012
+## Card_CategorySilver            5.485083e-01 2.070036e-01   2.6497523
+## Months_on_book                -1.004078e-02 8.315341e-03  -1.2075007
+## Total_Relationship_Count      -4.734349e-01 3.006753e-02 -15.7457192
+## Months_Inactive_12_mon         4.952915e-01 4.133687e-02  11.9818320
+## Contacts_Count_12_mon          5.424976e-01 3.967879e-02  13.6722308
+## Credit_Limit                  -6.085289e-05 7.126484e-06  -8.5389789
+## Total_Trans_Amt                4.121355e-04 2.497254e-05  16.5035498
+## Total_Trans_Ct                -1.139132e-01 3.963803e-03 -28.7383614
+## Avg_Utilization_Ratio         -2.958655e+00 1.843678e-01 -16.0475677
+##                                    Pr(>|z|)
+## (Intercept)                    1.424529e-23
+## Customer_Age                   9.495787e-01
+## GenderM                        1.026528e-09
+## Dependent_count                7.372875e-04
+## Education_LevelDoctorate       9.553644e-02
+## Education_LevelGraduate        4.717876e-01
+## Education_LevelHigh School     8.055856e-01
+## Education_LevelPost-Graduate   2.128386e-01
+## Education_LevelUneducated      5.953968e-01
+## Education_LevelUnknown         2.383557e-01
+## Marital_StatusMarried          2.054118e-03
+## Marital_StatusSingle           5.556141e-01
+## Marital_StatusUnknown          5.741387e-01
+## Income_Category$40K - $60K     3.820250e-08
+## Income_Category$60K - $80K     1.750397e-06
+## Income_Category$80K - $120K    2.177619e-03
+## Income_CategoryLess than $40K  1.270015e-05
+## Income_CategoryUnknown         3.578816e-06
+## Card_CategoryGold              6.110678e-03
+## Card_CategoryPlatinum          2.739942e-03
+## Card_CategorySilver            8.055081e-03
+## Months_on_book                 2.272394e-01
+## Total_Relationship_Count       7.349085e-56
+## Months_Inactive_12_mon         4.424369e-33
+## Contacts_Count_12_mon          1.487636e-42
+## Credit_Limit                   1.354131e-17
+## Total_Trans_Amt                3.459440e-61
+## Total_Trans_Ct                1.266128e-181
+## Avg_Utilization_Ratio          5.944854e-58
+## 
+## [[2]]
+## [1] 0.4
+\end{verbatim}
+
+The p values seem to hint that most coefficients are significantly
+different from 0, and thus that the variables are a predictor of
+customer attrition.
+
+We first test our model predictions on the training data and calculate
+the accuracy (i.e., number of corrected guesses), specificity (i.e.,
+true negative rate) and sensitivity (i.e., true positive rate) to
+analyze how well the model was at predicting the outcome.
+
+\begin{verbatim}
+##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## 0.0000474 0.0108737 0.0449392 0.1582620 0.2011501 0.9914281
+\end{verbatim}
+
+\begin{verbatim}
+##          0          1 
+## 0.09474487 0.49608655
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# confusion matrix on training set}
+\NormalTok{conmat }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(train}\SpecialCharTok{$}\NormalTok{Attrition\_Flag, pred }\SpecialCharTok{\textgreater{}=} \FloatTok{0.5}\NormalTok{)}
+\CommentTok{\#show confusion matrix }
+\FunctionTok{print}\NormalTok{(conmat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    
+##     FALSE TRUE
+##   0  6149  244
+##   1   590  612
+\end{verbatim}
+
+The confusion matrix shows that we correctly predicted a loyal customer
+6249 times and correctly predicted 956 not loyal customers.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Accuracy: \%s"}\NormalTok{, (}\DecValTok{6249}\SpecialCharTok{+}\DecValTok{956}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{nrow}\NormalTok{(train))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Accuracy: 0.948650427913101"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Specificity: \%s"}\NormalTok{, }\DecValTok{6249}\SpecialCharTok{/}\NormalTok{(}\DecValTok{6249}\SpecialCharTok{+}\DecValTok{144}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Specificity: 0.977475363679024"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Sensitivity: \%s"}\NormalTok{, }\DecValTok{956}\SpecialCharTok{/}\NormalTok{(}\DecValTok{956}\SpecialCharTok{+}\DecValTok{246}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Sensitivity: 0.795341098169717"
+\end{verbatim}
+
+The accuracy seems to be pretty high at 0.95, also the specificity of
+0.98 seems to indicate that we are quite good at classifying true
+negatives, however, our sensitivity is not great but not bad either at
+0.8. This could be because of the cutoff value that we use at 0.5
+whereas the average probability in our dataset of attrition was around
+16 percent.
+
+Secondly we deploy the model on our test set to see how well our model
+predicts on new data. We again calculate the Accuracy, Specificity,
+Sensitivity and Precision of our model.
+
+\begin{verbatim}
+##    
+##     FALSE TRUE
+##   0  2029   78
+##   1   189  236
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Accuracy: \%s"}\NormalTok{, (}\DecValTok{2051}\SpecialCharTok{+}\DecValTok{340}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{nrow}\NormalTok{(test))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Accuracy: 0.944312796208531"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Specificity: \%s"}\NormalTok{, }\DecValTok{2051}\SpecialCharTok{/}\NormalTok{(}\DecValTok{2051}\SpecialCharTok{+}\DecValTok{56}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Specificity: 0.973421926910299"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Sensitivity: \%s"}\NormalTok{, }\DecValTok{340}\SpecialCharTok{/}\NormalTok{(}\DecValTok{340}\SpecialCharTok{+}\DecValTok{85}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Sensitivity: 0.8"
+\end{verbatim}
+
+Again, the accuracy seems to be pretty high at 0.94 and also the
+specificity are similar to the training dataset, with values of 0.97 for
+the specificity and 0.8 for the sensitivity.
+
+We now plot the ROC curve of our model. The ROC curve measures the ..
+the larger the area the more accurate the model, with an area of 1
+signifying a perfect model and an area of 0.5 or lower as a situation in
+which the model does not perform better than a random prediction.
+
+\begin{verbatim}
+## Setting levels: control = 0, case = 1
+\end{verbatim}
+
+\begin{verbatim}
+## Setting direction: controls < cases
+\end{verbatim}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-36-1.pdf}
+
+\begin{verbatim}
+##   threshold
+## 1 0.1630952
+\end{verbatim}
+
+The area under the curve equals to \ldots{} this is a very high value
+and is an indication that our model is performing quite well.
+
+Next we calculate the variable importance for all of the variables we
+include in our model. The variable importance measures which variables
+are the main predictors of the loyalty of our customers. Insight into
+the main predictors could help give the company focus in developing
+marketing strategies to prevent attrition.
+
+\begin{verbatim}
+##                                  Overall
+## Customer_Age                   0.0632359
+## GenderM                        6.1052300
+## Dependent_count                3.3753243
+## Education_LevelDoctorate       1.6668892
+## Education_LevelGraduate        0.7195736
+## Education_LevelHigh School     0.2461248
+## Education_LevelPost-Graduate   1.2457979
+## Education_LevelUneducated      0.5310317
+## Education_LevelUnknown         1.1791066
+## Marital_StatusMarried          3.0822941
+## Marital_StatusSingle           0.5893686
+## Marital_StatusUnknown          0.5619667
+## Income_Category$40K - $60K     5.4989659
+## Income_Category$60K - $80K     4.7802932
+## Income_Category$80K - $120K    3.0648737
+## Income_CategoryLess than $40K  4.3652086
+## Income_CategoryUnknown         4.6344535
+## Card_CategoryGold              2.7417825
+## Card_CategoryPlatinum          2.9955012
+## Card_CategorySilver            2.6497523
+## Months_on_book                 1.2075007
+## Total_Relationship_Count      15.7457192
+## Months_Inactive_12_mon        11.9818320
+## Contacts_Count_12_mon         13.6722308
+## Credit_Limit                   8.5389789
+## Total_Trans_Amt               16.5035498
+## Total_Trans_Ct                28.7383614
+## Avg_Utilization_Ratio         16.0475677
+\end{verbatim}
+
+We can see that the total transaction count is the most important
+variable in predicting the customer attrition. This makes sense since
+the more transactions consumers will make the more likely they are to
+remain at the firm. Other important variables include the avg
+utilization ratio, the actual amount of money per transaction and the
+number of products held by the customer. The demographic variables seem
+to be less important predictors of customer attrition in general.
+
+Of course we want to compare multiple supervised learning methods to
+compare the quality of different models and choose the model that is the
+best at predicting customer attrition. The 2nd model we use is a basic
+CART decision tree.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tree }\OtherTok{\textless{}{-}} \FunctionTok{rpart}\NormalTok{(Attrition\_Flag }\SpecialCharTok{\textasciitilde{}}\NormalTok{., }\AttributeTok{method =} \StringTok{"class"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ train, }\AttributeTok{minbucket =} \DecValTok{25}\NormalTok{)}
+
+\CommentTok{\# plot tree}
+\FunctionTok{plot}\NormalTok{(tree, }\AttributeTok{uniform=}\ConstantTok{TRUE}\NormalTok{,}
+   \AttributeTok{main=}\StringTok{"Classification Tree for Attrition"}\NormalTok{)}
+\FunctionTok{text}\NormalTok{(tree, }\AttributeTok{use.n=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{all=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{cex=}\NormalTok{.}\DecValTok{8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-38-1.pdf}
+This shows an overview of our decision tree. Just like with the logistic
+regresion, the most important variable seems to be the count of
+transactions, as the first cut in the tree is made at transaction count
+over or under 54.5 . The 2nd cuts show the importance of the transaction
+amounts and the average utilization ratio. This is again pretty similar
+to the logistic regression.
+
+We test the quality of our model by firstly predicting attrition on our
+training dataset.
+
+\begin{verbatim}
+##           Reference
+## Prediction    0    1
+##          0 6183  270
+##          1  210  932
+\end{verbatim}
+
+This shows the confusion matrix for our decision tree model. Our
+predictions on the training set seem to be doing pretty decent, but to
+give more insight we proceed by calculating the Accuracy, Sensitivity,
+Specificity and Precision of our model.
+
+\begin{verbatim}
+## [1] "Accuracy: 0.936800526662278"
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "Specificity: 0.9581589958159"
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "Sensitivity: 0.816112084063047"
+\end{verbatim}
+
+The model looks to do a decent job, our sensitivity seems to be quite
+higher than our specificity, which implies that our model is better at
+correctly classifying clients that left than at finding true loyal
+customers. This could be because of the cutoff value or because of other
+reasons.
+
+Now that we have constructed the model we proceed by predicting the
+values in the test set in order to assess the suitability of the model.
+
+\begin{verbatim}
+##           Reference
+## Prediction    0    1
+##          0 2028  117
+##          1   79  308
+\end{verbatim}
+
+This shows the confusion matrix for our decision tree model. Our
+predictions on the test set seem to be of similar quality as they were
+on the training data. Again we proceed by calculating the Accuracy,
+Sensitivity, Specificity and Precision of our model.
+
+\begin{verbatim}
+## [1] "Accuracy: 0.92259083728278"
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "Specificity: 0.945454545454545"
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "Sensitivity: 0.795865633074935"
+\end{verbatim}
+
+There is not much difference between the accuracy for our model when
+comparing for the test and training set. The Sensitivity is slightly
+higher(0.01) and the specificity slightly lower(0.01). The accuracy is
+slightly lower than when predicting on the training set, however the
+difference is marginal and the accuracy is still quite high at almost
+93\%.
+
+We construct the ROC curve to compare how well our model predicts
+Attrition compared to a completely random guessing strategy.
+
+\begin{verbatim}
+## Setting levels: control = 0, case = 1
+\end{verbatim}
+
+\begin{verbatim}
+## Setting direction: controls < cases
+\end{verbatim}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-43-1.pdf}
+
+The area under the curve of 0.844 implies that our model is doing a good
+job in predicting customer attrition as an area of 0 would imply a model
+that is completely wrong and an area of 1 would imply a perfect model.
+The straint line in the middle of the graph shows the area for a model
+that randomly predicts customer attrition, our model is clearly
+performing better than a model that randomly predicts.
+
+We calculate the variable importance for our decision tree to see which
+variables were decisive in classifying the customers and predicting
+their behaviour.
+
+\begin{verbatim}
+##                             Overall
+## Avg_Utilization_Ratio    586.329045
+## Contacts_Count_12_mon    109.893206
+## Credit_Limit             208.052412
+## Customer_Age              31.693732
+## Gender                    88.531447
+## Income_Category            3.736251
+## Months_Inactive_12_mon   208.353703
+## Months_on_book            17.753292
+## Total_Relationship_Count 413.521846
+## Total_Trans_Amt          886.300843
+## Total_Trans_Ct           629.592223
+## Dependent_count            0.000000
+## Education_Level            0.000000
+## Marital_Status             0.000000
+## Card_Category              0.000000
+\end{verbatim}
+
+Again the most important variables are the total transaction amount and
+the transaction count, although in this case the transaction amount is
+actually more important than the transaction count. Other important
+variables are the number of products that customers have at the bank,
+the utilization radio plus the credit limit and the inactivity measure.
+
+A 3rd type of model that we could implement is a random forest. CART
+decision trees are easily interpretable, however, the prediction power
+can be improved by predicting our dependent variable over a large number
+of decision trees. We cannot simply multiply the CART procedure as that
+would create the same tree every time. Therefore we use a different
+method that for each bootstrap produces a tree based on a random subset
+of the independent variables. This method is called a random forest, we
+therefore, implement a random forest model that uses a bagging procedure
+producing \ldots{} regression trees and takes the average of each
+regression tree to try to improve the predictive power of the model
+results.
+
+Just like with the 2 previous models we continue by predicting customer
+attrition in our training dataset to assess how well our model fits the
+data.
+
+\begin{verbatim}
+##       
+## predrf    0    1
+##      0 6293  337
+##      1  100  865
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Accuracy: \%s"}\NormalTok{, (}\DecValTok{6289}\SpecialCharTok{+}\DecValTok{856}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{nrow}\NormalTok{(train))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Accuracy: 0.940750493745885"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Specificity: \%s"}\NormalTok{, }\DecValTok{6289}\SpecialCharTok{/}\NormalTok{(}\DecValTok{6289}\SpecialCharTok{+}\DecValTok{346}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Specificity: 0.947852298417483"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Sensitivity: \%s"}\NormalTok{, }\DecValTok{856}\SpecialCharTok{/}\NormalTok{(}\DecValTok{856}\SpecialCharTok{+}\DecValTok{104}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Sensitivity: 0.891666666666667"
+\end{verbatim}
+
+The accuracy of 0.94 implies that our model is quite accurate in its
+predictions. The sensitivity of 0.89 and specificity of almost 0.95
+signal that our model is doing very well in finding the True negatives
+and True positives.
+
+To verify the fit of our model we also predict customer attrition in the
+test dataset.
+
+\begin{verbatim}
+##           
+## predrftest    0    1
+##          0 2074   99
+##          1   33  326
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Accuracy: \%s"}\NormalTok{, (}\DecValTok{2072}\SpecialCharTok{+}\DecValTok{320}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{nrow}\NormalTok{(test))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Accuracy: 0.944707740916272"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Specificity: \%s"}\NormalTok{, }\DecValTok{2072}\SpecialCharTok{/}\NormalTok{(}\DecValTok{2072}\SpecialCharTok{+}\DecValTok{320}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Specificity: 0.866220735785953"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Sensitivity: \%s"}\NormalTok{, }\DecValTok{320}\SpecialCharTok{/}\NormalTok{(}\DecValTok{320}\SpecialCharTok{+}\DecValTok{35}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Sensitivity: 0.901408450704225"
+\end{verbatim}
+
+The accuracy of 0.94 tells us that our model is quite accurate in its
+predictions. The sensitivity pf 0.90 and specificity or 0.95 show that
+the model is very capable of distinguishing the true negatives and the
+true positives.
+
+We also plot an ROC curve for our random forest model to see how well
+our predictions are doing compared to random guessing.
+
+\begin{verbatim}
+## Setting levels: control = 0, case = 1
+\end{verbatim}
+
+\begin{verbatim}
+## Setting direction: controls < cases
+\end{verbatim}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-50-1.pdf}
+
+The area under the curve of 0.868 indicates that our model is doing a
+good job in predicting customer attritions.
+
+In the following graph we compare the results of all our 3 models at the
+same time to ease the comparison.
+
+\begin{verbatim}
+## Setting levels: control = 0, case = 1
+\end{verbatim}
+
+\begin{verbatim}
+## Setting direction: controls < cases
+\end{verbatim}
+
+\begin{verbatim}
+## Setting levels: control = 0, case = 1
+\end{verbatim}
+
+\begin{verbatim}
+## Setting direction: controls < cases
+\end{verbatim}
+
+\begin{verbatim}
+## Setting levels: control = 0, case = 1
+\end{verbatim}
+
+\begin{verbatim}
+## Setting direction: controls < cases
+\end{verbatim}
+
+\includegraphics{customer-intelligence-project_files/figure-latex/unnamed-chunk-51-1.pdf}
+
+The graph indicates that the Logistic regression model that we
+constructed seems to be the best model for predicting customer
+attrition. The area under the curve of 0.906 is slightly higher than
+that of random forest(0.868) and the CART decision tree(0.844) We draw
+our conclusion for choosing the best model mainly on the AUC due to the
+high probability involved in our predictions. Because the majority of
+the dataset(84\%) are customers that stayed loyal, by simply predicting
+everyone to remain loyal you would already obtain an accuracy of 84\%.
+Therefore we use the AUC measure of the ROC curve as the main criteria
+to choose the right model.
+
+Given that the logistic regression model came out as the best model we
+shortly highlight the results of the logistic regression to give
+insights into the drivers of customer attrition. According to our
+logistic regression the Customer transaction count , transaction amount
+, average utilization rate and the number of products held by the
+customer were the most important predictors of customer attrition.
+\ldots{} with a coefficient of \ldots{} would on average increase the
+likelihood of attrition by \ldots{} percent.
+
+\ldots{} with a coefficient of \ldots{} would on average increase the
+likelihood of churning by \ldots{} percent.
+
+\ldots{} with a coefficient of \ldots{} would on average increase the
+likelihood of churning by \ldots{} percent.
+
+\ldots{} with a coefficient of \ldots{} would on average increase the
+likelihood of churning by \ldots{} percent.
+
+\end{document}

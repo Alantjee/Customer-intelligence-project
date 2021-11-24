@@ -42,8 +42,7 @@ data <- read.csv("ch.csv")
 #install with dependencies = TRUE is important for the calculation of sensitivity and specificity
 #install the other packages that are being used 
 #install.packages(c("dplyr", "ggplot2", "corrplot", "tidyverse", "repr", "caTools", "pROC", "rpart", "rpart.plot", "ggpubr", "randomForest", "ROCR", "grid", "broom", "tidyr", "scales", "ggthemr", "ggthemes", "gridExtra", "data.table"))
-
-install.packages("ggthemr")
+#install.packages("ggthemr")
 library(dplyr)
 library(ggplot2)
 library(caret)
@@ -61,7 +60,7 @@ library(grid)
 library(broom)
 library(tidyr)
 library(scales)
-library(ggthemr)
+#library(ggthemr)
 library(ggthemes)
 library(gridExtra)
 library(data.table)
@@ -241,7 +240,7 @@ fig45 <- ggplot(data, aes(x=Marital_Status,fill=Attrition_Flag))+ geom_bar(posit
 print(fig45)
 
 
-annotate_figure(fig34, bottom  = text_grob("Attrition Percentage for different marital status", col = "blue", face = "bold", size = 14))
+annotate_figure(fig45, bottom  = text_grob("Attrition Percentage for different marital status", col = "blue", face = "bold", size = 14))
 ```
 
 ```{r}
@@ -392,19 +391,19 @@ sprintf("Sensitivity: %s", 340/(340+85))
 Again, the accuracy seems to be pretty high at 0.94 and also the specificity are similar to the training dataset, with values of 0.97 for the specificity and 0.8 for the sensitivity. 
 
 
-```{r}
+```{r, echo = FALSE}
 # functions are sourced in, to reduce document's length
-source("unbalanced_functions.R")
-train$prediction <- predict(glm, newdata = train, type = "response")
-test$prediction<- predict(glm, newdata = test, type = "response")
-train$Attrition_Flag <- as.factor(train$Attrition_Flag)
-test$Attrition_Flag <- as.factor(test$Attrition_Flag)
+#source("unbalanced_functions.R")
+#train$prediction <- predict(glm, newdata = train, type = "response")
+#test$prediction<- predict(glm, newdata = test, type = "response")
+#train$Attrition_Flag <- as.factor(train$Attrition_Flag)
+#test$Attrition_Flag <- as.factor(test$Attrition_Flag)
 
-str(test$Attrition_Flag)
-accuracy_info <- AccuracyCutoffInfo( train = train, test = test, predict = "prediction", actual = "Attrition_Flag" )
+#str(test$Attrition_Flag)
+#accuracy_info <- AccuracyCutoffInfo( train = train, test = test, predict = "prediction", actual = "Attrition_Flag" )
 # define the theme for the next plot
-ggthemr("light")
-accuracy_info$plot
+#ggthemr("light")
+#accuracy_info$plot
 ```
 
 We now plot the ROC curve of our model. The ROC curve measures the ..    the larger the area the more accurate the model, with an area of 1 signifying a perfect model and an area of 0.5 or lower as a situation in which the model does not perform better than a random prediction. 
