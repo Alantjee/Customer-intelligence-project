@@ -168,6 +168,8 @@ educationlevel <- table(data$Education_Level)
 print(educationlevel)
 prop <- round(prop.table(educationlevel), 3)
 print(prop)
+# percentages for gender by marital status
+
 ```
  70.3% of the customers obtained at least an high-school diploma, but a significant 14.7% is not educated, and 15% have an unknown status. 
  
@@ -189,27 +191,32 @@ fig1 <-   ggplot(data, aes(x=Gender,fill=Attrition_Flag))+ geom_bar(position = '
 print(fig1)
 
 annotate_figure(fig1, bottom  = text_grob("Attrition Percentage in Males and Females", col = "blue", face = "bold", size = 14))
+
+
 ```
 
 ```{r}
-reorder_size <- function(x) {
-  factor(x, levels = names(sort(table(x), decreasing = TRUE)))
-}
+#reorder_size <- function(x) {
+ # factor(x, levels = names(sort(table(x), decreasing = TRUE)))
+#}
 
-ggplot(data, aes(x = reorder_size(`Attrition_Flag`))) +
-        geom_bar(aes(y = (..count..)/sum(..count..))) +
-        xlab("Attrition_Flag") +
-        scale_y_continuous(labels = scales::percent, name = "Proportion") +
-        facet_grid(~ Gender) +
-        theme(axis.text.x = element_text(angle = 45, hjust = 1))
+#ggplot(data, aes(x = reorder_size(`Attrition_Flag`))) +
+ #       geom_bar(aes(y = (..count..)/sum(..count..))) +
+  #      xlab("Attrition_Flag") +
+   #     scale_y_continuous(labels = scales::percent, name = "Proportion") +
+    ##   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# percentages for gender by marital status
+table1 <- table(data$Gender, data$Attrition_Flag)
+prop.table(table1)
 ```
 ```{r}
-ggplot(data, aes(x = reorder_size(`Attrition_Flag`))) +
-        geom_bar(aes(y = (..count..)/sum(..count..))) +
-        xlab("Attrition_Flag") +
-        scale_y_continuous(labels = scales::percent, name = "Proportion") +
-        facet_grid(~ Marital_Status) +
-        theme(axis.text.x = element_text(angle = 45, hjust = 1))
+#ggplot(data, aes(x = reorder_size(`Attrition_Flag`))) +
+ #       geom_bar(aes(y = (..count..)/sum(..count..))) +
+  #      xlab("Attrition_Flag") +
+   #     scale_y_continuous(labels = scales::percent, name = "Proportion") +
+    #    facet_grid(~ Marital_Status) +
+     #   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
 
@@ -218,7 +225,10 @@ fig2 <- ggplot(data, aes(x=Education_Level,fill=Attrition_Flag))+ geom_bar(posit
 print(fig2)
 
 annotate_figure(fig2, bottom  = text_grob("Attrition Percentage for different levels of education", col = "blue", face = "bold", size = 14))
-          
+      
+# percentages for gender by marital status
+table2 <- table(data$Education_Level, data$Attrition_Flag)
+prop.table(table2)    
 ```
 
 ```{r, echo = FALSE}
@@ -226,6 +236,10 @@ fig3 <- ggplot(data, aes(x=Income_Category,fill=Attrition_Flag))+ geom_bar(posit
 print(fig3)
 
 annotate_figure(fig3, bottom  = text_grob("Attrition Percentage for different income levels", col = "blue", face = "bold", size = 14))
+
+# percentages for gender by marital status
+table3 <- table(data$Income_Category, data$Attrition_Flag)
+prop.table(table3)
 ```
 
 ```{r, echo = FALSE}
@@ -233,6 +247,10 @@ fig4 <- ggplot(data, aes(x=Card_Category,fill=Attrition_Flag))+ geom_bar(positio
 print(fig4)
 
 annotate_figure(fig4, bottom  = text_grob("Attrition Percentage for different cardholder categories", col = "blue", face = "bold", size = 14))
+
+# percentages for gender by marital status
+table4 <- table(data$Card_Category, data$Attrition_Flag)
+prop.table(table4)
 ```
 
 ```{r}
@@ -241,17 +259,21 @@ print(fig45)
 
 
 annotate_figure(fig45, bottom  = text_grob("Attrition Percentage for different marital status", col = "blue", face = "bold", size = 14))
+
+# percentages for gender by marital status
+table45 <- table(data$Marital_Status, data$Attrition_Flag)
+prop.table(table45)
 ```
 
 ```{r}
-ggplot(data, aes(x = reorder_size(`Marital_Status`))) +
-        geom_bar() +
-        theme(axis.text.x = element_text(angle = 45, hjust = 1))
+#ggplot(data, aes(x = reorder_size(`Marital_Status`))) +
+ #       geom_bar() +
+  #      theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ```{r, echo = FALSE}
 fig5 <-   ggarrange(
-          ggplot(data, aes(y= Dependent_count, x = "", fill = Attrition_Flag))
+          ggplot(data, aes(y= Dependent_Count, x = "", fill = Attrition_Flag))
 +geom_boxplot() + xlab(" "),
           ggplot(data, aes(y= Months_on_book, x = "", fill = Attrition_Flag))
 +geom_boxplot() + xlab(" "))
@@ -260,6 +282,19 @@ print(fig5)
 
 annotate_figure(fig5, bottom  = text_grob("Attrition Percentage for different number of dependents in family and different number of months as client", col = "red", face = "bold", size = 14))
 
+
+```
+
+```{r, results = 'hide'}
+# percentages for gender by marital status 
+table5 <- table(data$Dependent_count, data$Attrition_Flag)
+prop.table(table5)
+
+
+
+# percentages for gender by marital status DEZE CHECKEN
+table6 <- table(data$Months_on_book, data$Attrition_Flag)
+prop.table(table6)
 ```
 
 ```{r, echo = FALSE}
@@ -272,6 +307,18 @@ fig6 <-   ggarrange(
 print(fig6)
 
 annotate_figure(fig6, bottom  = text_grob("Attrition Percentage in Age and Relationship counts", col = "red", face = "bold", size = 14))
+
+```
+
+```{r, results = 'hide'}
+
+# percentages for gender by marital status DEZE CHECKEN
+table7 <- table(data$Customer_Age, data$Attrition_Flag)
+prop.table(table7)
+
+# percentages for gender by marital status
+table8 <- table(data$Total_Relationship_Count, data$Attrition_Flag)
+prop.table(table8)
 
 ```
 
@@ -288,6 +335,17 @@ annotate_figure(fig7, bottom  = text_grob("Attrition Percentage in inactivity an
 
 ```
 
+```{r, results = 'hide'}
+# percentages for gender by marital status DEZE CHECKEN
+table9 <- table(data$Months_Inactive_12_mon, data$Attrition_Flag)
+prop.table(table9)
+
+# percentages for gender by marital status DEZE CHECKEN
+table10 <- table(data$Contacts_Count_12_mon, data$Attrition_Flag)
+prop.table(table10)
+
+```
+
 ```{r, echo = FALSE}
 fig8 <-   ggarrange(
           ggplot(data, aes(y= Credit_Limit, x = "", fill = Attrition_Flag))
@@ -298,6 +356,18 @@ fig8 <-   ggarrange(
 print(fig8)
 
 annotate_figure(fig8, bottom  = text_grob("Attrition Percentage in different levels of credit limit transaction levels ", col = "red", face = "bold", size = 14))
+
+
+```
+
+```{r, results = 'hide'}
+# percentages for gender by marital status DEZE CHECKEN
+table11 <- table(data$Credit_Limit, data$Attrition_Flag)
+prop.table(table11)
+
+# percentages for gender by marital status DEZE CHECKEN
+table12 <- table(data$Total_Trans_Amt, data$Attrition_Flag)
+prop.table(table12)
 
 ```
 
@@ -311,7 +381,16 @@ fig9 <-   ggarrange(
 print(fig9)
 
 annotate_figure(fig9, bottom  = text_grob("Attrition Percentage in number of transactions and utilization ratio", col = "red", face = "bold", size = 14))
+```
 
+```{r, results = 'hide'}
+# percentages for gender by marital status
+table13 <- table(data$Total_Trans_Ct, data$Attrition_Flag)
+prop.table(table13)
+
+# percentages for gender by marital status
+table14 <- table(data$Avg_Utilization_Ratio, data$Attrition_Flag)
+prop.table(table14)
 ```
 
 
