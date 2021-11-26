@@ -185,7 +185,7 @@ Now, we check our dataset for the correlations between variables.
 ```{r, echo = FALSE}
 nv <- sapply(data, is.numeric)
 cormat <- cor(data[,nv])
-corrplot::corrplot(cormat, title = "Correlation of Numeric Variables")
+corrplot::corrplot(cormat, title = "Correlation Matrix of Numeric Variables")
 ```
 
 From the figure we see how some variables seem to be highly correlated. However, that was highly expected due to the fact that having a high number of variables increases the likelihood of finding overlaps among them. The variables involved are: “Months_on_book” with “Customer_Age” (positively correlated), “Total_Trans_Amt” with “Total_Trans_Ct” (positively correlated) and “Avg_Utilization_Ratio” with “Credit_Limit” (negatively correlated). Since they do not measure the same aspects, we proceed by considering all of them as adding significant information into our model, and thus we are not excluding none of them. 
@@ -204,8 +204,6 @@ fig1 <- ggplot(data, aes(x=Gender,fill=Attrition_Flag))+ geom_bar(position = 'fi
 print(fig1)
 
 annotate_figure(fig1, bottom = text_grob("% of Customer Attrition wrt Gender", col = "blue", face = "bold", size = 14))
-
-
 ```
 
 
@@ -222,9 +220,6 @@ annotate_figure(fig1, bottom = text_grob("% of Customer Attrition wrt Gender", c
    #     scale_y_continuous(labels = scales::percent, name = "Proportion") +
     ##   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-# percentages for gender by marital status
-table1 <- table(data$Gender, data$Attrition_Flag)
-prop.table(table1)
 ```
 
 As the figure above underpins, female customers tend to churn slightly more than the male counterparts (17% vs. 15%).
@@ -251,12 +246,6 @@ fig2 <- ggplot(data, aes(x=Education_Level,fill=Attrition_Flag))+ geom_bar(posit
 print(fig2)
 
 annotate_figure(fig2, bottom  = text_grob("% Customer Attrition wrt Education Levels", col = "blue", face = "bold", size = 14))
-
-
-      
-# percentages for gender by marital status
-table2 <- table(data$Education_Level, data$Attrition_Flag)
-prop.table(table2)    
 ```
 
 With regards to the customer attrition for the different education levels, it seems that the percentage of customers that churn the most are ones who have obtained the highest degree in education, that is Doctorates (21%) and Post-graduates (18%). They are followed by Graduates and Uneducateds (both 16%) and customer with High School and College diplomas (both 15%).
@@ -273,10 +262,6 @@ fig3 <- ggplot(data, aes(x=Income_Category,fill=Attrition_Flag))+ geom_bar(posit
 print(fig3)
 
 annotate_figure(fig3, bottom  = text_grob("% Customer Attrition wrt Income Levels", col = "blue", face = "bold", size = 14))
-
-# percentages for gender by marital status
-table3 <- table(data$Income_Category, data$Attrition_Flag)
-prop.table(table3)
 ```
 
 
@@ -296,9 +281,6 @@ print(fig4)
 
 annotate_figure(fig4, bottom  = text_grob("% Customer Attrition wrt Cardholder Categories", col = "blue", face = "bold", size = 14))
 
-# percentages for gender by marital status
-table4 <- table(data$Card_Category, data$Attrition_Flag)
-prop.table(table4)
 ```
 
 The above graphs shows that the Platinum card seems to have the greater percentage of churned customers (25%), followed by Gold card (18%), Blue card (16%) and only 15% of customers owning a Silver card decided to churn.
@@ -314,10 +296,6 @@ fig45 <- ggplot(data, aes(x=Marital_Status,fill=Attrition_Flag))+ geom_bar(posit
 print(fig45)
 
 annotate_figure(fig45, bottom  = text_grob("% Customer Attrition wrt Marital Status", col = "blue", face = "bold", size = 14))
-
-# percentages for gender by marital status
-table45 <- table(data$Marital_Status, data$Attrition_Flag)
-prop.table(table45)
 ```
 The figure above shows that single customers are the ones that churned the most (17%), followed by divorced ones (16%) and married ones (15%).
 
@@ -349,29 +327,13 @@ fig5 <-   ggarrange(
 
 print(fig5)
 
-annotate_figure(fig5, bottom  = text_grob("% Customer Attrittion wrt No. of Dependents & Relationship Lenght", col = "red", face = "bold", size = 14))
-
+annotate_figure(fig5, bottom  = text_grob("Customer Attrittion wrt No. of Dependents & Relationship Lenght", col = "red", face = "bold", size = 14))
 
 tapply(data$Dependent_count, data$Attrition_Flag, summary)
 tapply(data$Months_on_book, data$Attrition_Flag, summary)
 
-
-
 ```
-
-```{r, results = 'hide'}
-# percentages for gender by marital status 
-table5 <- table(data$Dependent_count, data$Attrition_Flag)
-prop.table(table5)
-
-
-
-# percentages for gender by marital status DEZE CHECKEN
-table6 <- table(data$Months_on_book, data$Attrition_Flag)
-prop.table(table6)
-```
-
-With regards to the numbers of the dependents, we see that the median stands at two for both attrited and existing customers, whereas the mean is higher for the former (2.41 vs. 2.33). The first quantile is two for the attrited customers and one for the existing ones. Both shows same minimum (0), third quantile (3) and maximum (5). Interestingly, the boxplot of the attrited customers sees two outliers on the opposite sides and shows a asymetric distribution.
+With regards to the numbers of the dependents, we see that the median stands at 2 for both attrited and existing customers, whereas the mean is higher for the former (2.41 vs. 2.33). The first quantile is 2 for the attrited customers and 1 for the existing ones. Both shows same minimum (0), third quantile (3) and maximum (5). Interestingly, the boxplot of the attrited customers sees two outliers on the opposite sides and shows an asymmetric distribution.
 
 Concerning the period of relationship with the bank, the boxplots show same minimum (13), median (36), third quantile (40) and maximum (56) for both types of customers. The mean is slightly higher in the attrited customer (36.18 vs. 35.88) and the first quantile begins one unit later (32 vs. 31). Both boxplots present several outliers.
 
@@ -385,33 +347,15 @@ fig6 <-   ggarrange(
 
 print(fig6)
 
-annotate_figure(fig6, bottom  = text_grob("% Customer Attrition wrt Age & No. of Products", col = "red", face = "bold", size = 14))
+annotate_figure(fig6, bottom  = text_grob("Customer Attrition wrt Age & No. of Products", col = "red", face = "bold", size = 14))
 
 tapply(data$Customer_Age, data$Attrition_Flag, summary)
 tapply(data$Total_Relationship_Count, data$Attrition_Flag, summary)
 
 ```
+Concerning the age of the customers, we see that attrited customers show an average age slighly older than existing customers (46.66 vs. 46.26). Both see their minimum at 26, with the first quartile standing at 41 and the third at 52. Whereas the median for the attrited customers is higher (47 vs. 46), we see the highest maximum in the existing customers (73 vs. 68). Two outliers are present in the existing customer boxplot.
 
-
-
-
-
-```{r, results = 'hide'}
-
-# percentages for gender by marital status DEZE CHECKEN
-table7 <- table(data$Customer_Age, data$Attrition_Flag)
-prop.table(table7)
-
-# percentages for gender by marital status
-table8 <- table(data$Total_Relationship_Count, data$Attrition_Flag)
-prop.table(table8)
-
-```
-
-
-Concerning the age of the customers, we see that attrited customers show an average age slighly older than existing customers (46.66 vs. 46.26). Both see their minimum at 26, with the first quartile standing at 41 and the third at 52. Whereas the median for the attrited customers is higher (47 vs. 46), we see the maximum in the existing customers (73 vs. 68). Two outliers are present in the existing customer boxplot.
-
-The average number of products held by the attrited customers is 3.28, whereas for existing customers is 3.92. As highly expected, the minimum in both cases stands at 1 and the maximum at 6. Whereas they show the same value for the third quartile (5), they have a slightly different first quartile: 2 for attrited customers and 3 for existing customers. The median is one unit higher in the existing customers group compare to the attrited customer one (4 vs 3). In the last boxplot is a greater amount of dispersion, meaning that there is a greater frequency of medium-high values.
+The average number of products held by the attrited customers is 3.28, whereas for existing customers is 3.92. As highly expected, the minimum in both cases stands at 1 and the maximum at 6. Whereas they show the same value for the third quartile (5), they have a slightly different first quartile, namely 2 for attrited customers and 3 for existing customers. The median is one unit higher in the existing customers group compare to the attrited customer one (4 vs 3). In the last boxplot there is a greater amount of dispersion, which means that there is a greater frequency of medium-high values.
 
 
 
@@ -424,7 +368,7 @@ fig7 <-   ggarrange(
 
 print(fig7)
 
-annotate_figure(fig7, bottom  = text_grob("% Customer Attrition wrt Inactivity & No. of Contacts", col = "red", face = "bold", size = 14))
+annotate_figure(fig7, bottom  = text_grob("Customer Attrition wrt Inactivity & No. of Contacts", col = "red", face = "bold", size = 14))
 
 
 
@@ -436,19 +380,6 @@ The graph above on the left shows that attrited customers have an average of 2.6
 
 The average number of contacts in the last twelve months is higher for attrited customers than for existing (2.97 vs. 2.36). The boxplot of the existing customers shows two outliers and a median of 2, in contrast with the median of 3 with regards to attrited customers. Both customer groups see their minimum in 0, but attrited customers show a maximum of 6, one unit higher than existing customer standing at 5. Also their distribution is slighty different, as its 75% of the values are below (or equals to) 3 for existing customers and below (or equals to) 4 for attrited customers. 
 
-
-
-```{r, results = 'hide'}
-# percentages for gender by marital status DEZE CHECKEN
-table9 <- table(data$Months_Inactive_12_mon, data$Attrition_Flag)
-prop.table(table9)
-
-# percentages for gender by marital status DEZE CHECKEN
-table10 <- table(data$Contacts_Count_12_mon, data$Attrition_Flag)
-prop.table(table10)
-
-```
-
 ```{r, echo = FALSE}
 fig8 <-   ggarrange(
           ggplot(data, aes(y= Credit_Limit, x = "", fill = Attrition_Flag))
@@ -458,31 +389,16 @@ fig8 <-   ggarrange(
 
 print(fig8)
 
-annotate_figure(fig8, bottom  = text_grob("% Customer Attrition wrt Credit Limit & Amount of Total Transactions", col = "red", face = "bold", size = 14))
-
-
-
+annotate_figure(fig8, bottom  = text_grob("Customer Attrition wrt Credit Limit & Amount of Total Transactions", col = "red", face = "bold", size = 14))
 
 tapply(data$Credit_Limit, data$Attrition_Flag, summary)
 tapply(data$Total_Trans_Amt, data$Attrition_Flag, summary)
-
 
 ```
 Concerning the credit limit on the credit card, the average between the customers groups differ slightly: 8,136 for attrited customers and 8,727 for existing customers. Both minimum and maximum are equals among them, being 1,438 and 34,516, respectively. The mediam stands at 4,178 for the first group and 4,644 for the second. Both boxplots are asymmetric, due to the greater frequency of medium-low values and considerable high number of outliers.
 
 
-The boxplots of the total transaction amount seem very different. Indeed attrited customers have a minimum lower value (510 vs. 816) and at the same time their maximum transaction amount is considerable lower than the one of the existing customers (10,583 vs. 18,484). With regards to the average of transaction amounts, it stands at 3,095 for attrited customers and 4,655 for existing customers. Having said that, it is reasonable to assume that the boxplot of existing customers show a more asymmetric distribution, with values being constanly higher than the ones of the attrited customers. 
-
-```{r, results = 'hide'}
-# percentages for gender by marital status DEZE CHECKEN
-table11 <- table(data$Credit_Limit, data$Attrition_Flag)
-prop.table(table11)
-
-# percentages for gender by marital status DEZE CHECKEN
-table12 <- table(data$Total_Trans_Amt, data$Attrition_Flag)
-prop.table(table12)
-
-```
+The boxplots of the total transaction amount seem very different. Indeed, attrited customers have a minimum lower value (510 vs. 816) and at the same time their maximum transaction amount is considerable lower than the one of the existing customers (10,583 vs. 18,484). With regards to the average of transaction amounts, it stands at 3,095 for attrited customers and 4,655 for existing customers. Having said that, it is reasonable to assume that the boxplot of existing customers show a more asymmetric distribution, with values being constantly higher than the ones of the attrited customers. 
 
 ```{r, echo = FALSE}
 fig9 <-   ggarrange(
@@ -493,27 +409,16 @@ fig9 <-   ggarrange(
 
 print(fig9)
 
-annotate_figure(fig9, bottom  = text_grob("% Customer Attrition wrt No. of Total Transactions Percentage in number of transactions and utilization ratio", col = "red", face = "bold", size = 14))
+annotate_figure(fig9, bottom  = text_grob("Customer Attrition wrt No. of Total Transactions Percentage in number of transactions and utilization ratio", col = "red", face = "bold", size = 14))
 
 
 tapply(data$Total_Trans_Ct, data$Attrition_Flag, summary)
 tapply(data$Avg_Utilization_Ratio, data$Attrition_Flag, summary)
 ```
 
-The boxplot above shows the total transaction amount of both attrited and existing customers. The former show a mean of 44.93 transactions, whereas the latter 68.67. Also the maximum and the maximun are higher in the existing customers, being them respectively 139 versus 94 and 11 versus 10. The median is 43 for the attrited customers and 71 for the existing ones. Generally, the boxplot of the attrited customers show smaller values compared to the one of the existing customers, which is also underpinned by the lower amount in the first quartile (37 vs 54) and in the third quartile (51 vs 82).
+The boxplot above shows the total transaction amount of both attrited and existing customers, with the former showing a mean of 44.93 transactions, whereas the latter 68.67. Also the maximum and the maximun are higher in the existing customers, being them respectively 139 vs. 94, and 11 vs. 10. The median is 43 for the attrited customers and 71 for the existing ones. Generally, the boxplot of the attrited customers shows smaller values compared to the one of the existing customers, which is also underpinned by the lower amount in the first quartile (37 vs. 54) and in the third quartile (51 vs 82).
 
-With regards to the average card utilization ratio, we see how the two groups differ; median is 0% for the attrited customers, whereas it stands 21% for the existing ones. Although the maximum is 99% for both of them, the third quartile stands at 23% for the attrited customers ad 53% for the existing ones. The two boxplots present an asymmetric distribution, but the first present an increadibly high number of outliers.
-
-
-```{r, results = 'hide'}
-# percentages for gender by marital status
-table13 <- table(data$Total_Trans_Ct, data$Attrition_Flag)
-prop.table(table13)
-
-# percentages for gender by marital status
-table14 <- table(data$Avg_Utilization_Ratio, data$Attrition_Flag)
-prop.table(table14)
-```
+With regards to the average card utilization ratio, we see how the two groups differ; median is 0% for the attrited customers, whereas it stands 21% for the existing ones. Although the maximum is 99% for both of them, the third quartile stands at 23% for the attrited customers ad 53% for the existing ones. The two boxplots present an asymmetric distribution, but the first present an incredibly high number of outliers.
 
 
 Now, it is essential to split the data into training and test sets. Indeed, we will fist use the training data to build our model and then, when we satisfied with the achievements, the remaining test data will deal to test our model, and thus to assess the power of our predictions. The training set is composed by 75% of the data, whereas the test set 25%. 
