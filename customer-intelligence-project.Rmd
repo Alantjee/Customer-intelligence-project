@@ -685,15 +685,18 @@ Given that the Logistic regression model came out as the best model, we shortly 
 
 
 ?????
+```{r}
+cat('coefficient:', coef(glm)["Total_Trans_Ct"],"\n")
+
+cat('multiplicative effect on odds, exp(coefficient):', exp(coef(glm)["Total_Trans_Ct"]),"\n")
+```
 
 
-"Total_Trans_Ct" with a coefficient of -0.114 would on average increase the likelihood of attrition by ... percent. 
+"Total_Trans_Ct" with a coefficient of -0.114 would with a unit increase the likelihood of attrition by . percent. 
 
-"Total_Trans_Amt" with a coefficient of 0.000 would on average increase the likelihood of churning by ... percent. 
- 
-"Avg_Utilization_Ratio" with a coefficient of -2.959 would on average increase the likelihood of churning by ... percent. 
+"Avg_Utilization_Ratio" with a coefficient of -2.959 would with a one unit increase the likelihood of attrition by ... percent. 
   
-"Total_Relationship_Count" with a coefficient of -0.473 would on average increase the likelihood of churning by ... percent. 
+"Total_Relationship_Count" with a coefficient of -0.473 would with a one unit increase the likelihood of attrition by  percent. 
 
 
 
